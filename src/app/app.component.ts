@@ -16,4 +16,9 @@ export class AppComponent implements OnInit {
         console.log(page);
         this.options$.push("one"+ page, "two"+ page, "three"+ page, "four"+ page, "five"+ page);
     }
+
+    search(value: string) {
+        console.log(value);
+        this.options$ = this.options$.filter(i => i.startsWith(value));
+    }
 }

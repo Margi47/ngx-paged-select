@@ -18,9 +18,11 @@
 <br/>
 <label>From bootstrap select</label>
 <div class="col">
-  <div ngbDropdown class="d-inline-block">
+  <div ngbDropdown class="d-inline-block" [autoClose]="false">
     <button class="btn btn-outline" id="dropdownBasic1" ngbDropdownToggle>Select Me</button>
+    
     <div class="dropdown-menu" aria-labelledby="dropdownBasic1">
+      <input #myInput placeholder="Paste name..." (input)="filterItem(myInput.value)" />
       <div class="select-options"
            infinite-scroll
            [scrollWindow]="false"

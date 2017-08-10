@@ -9,6 +9,7 @@ export class SelectComponent implements OnInit {
     @Input() options: string[];
     @Input() total: number;
     @Output() onScroll = new EventEmitter<number>();
+    @Output() onSearch = new EventEmitter<string>();
 
     constructor() { }
 
@@ -29,5 +30,9 @@ export class SelectComponent implements OnInit {
 
     onOptionSelect(option: string) {
         console.log(option);
+    }
+
+    filterItem(value: any) {
+        this.onSearch.emit(value);
     }
 }
