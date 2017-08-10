@@ -15,3 +15,20 @@
   </div>
 </div>
 
+<br/>
+<label>From bootstrap select</label>
+<div class="col">
+  <div ngbDropdown class="d-inline-block">
+    <button class="btn btn-outline" id="dropdownBasic1" ngbDropdownToggle>Select Me</button>
+    <div class="dropdown-menu" aria-labelledby="dropdownBasic1">
+      <div class="select-options"
+           infinite-scroll
+           [scrollWindow]="false"
+           [infiniteScrollDistance]="2"
+           [infiniteScrollThrottle]="100"
+           (scrolled)="onScrollDown($event)">
+        <button *ngFor="let option of options" class="dropdown-item" (click)="onOptionSelect(option)">{{option}}</button>
+      </div>
+    </div>
+    </div>
+</div>
