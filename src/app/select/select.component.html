@@ -1,0 +1,17 @@
+﻿<label>From Select</label>
+<div class="select-container" (click)="visible = true">
+  Select Me
+  <div class="select-options-container" *ngIf="visible">
+    <div class="select-options"
+         infinite-scroll
+         [scrollWindow]="false"
+         [infiniteScrollDistance]="2"
+         [infiniteScrollThrottle]="100"
+         (scrolled)="onScrollDown($event)">
+      <div *ngFor="let option of options" class="select-option-item" (click)="onOptionSelect(option)">
+        {{option}}
+      </div>
+    </div>
+  </div>
+</div>
+
