@@ -1,6 +1,8 @@
 ﻿<label>From App Component</label>
 <app-select [options]="options$" 
             [total]="40" 
+            [key]="'name'"
             (onScroll)="loadNextPage($event)"
-            (onSearch)="search($event)"></app-select>
+            (onSearch)="search($event)"
+            (optionSelected)="onSelect($event)"></app-select>
 

@@ -29,7 +29,9 @@
            [infiniteScrollDistance]="2"
            [infiniteScrollThrottle]="100"
            (scrolled)="onScrollDown($event)">
-        <button *ngFor="let option of options" class="dropdown-item" (click)="onOptionSelect(option)">{{option}}</button>
+        <span *ngFor="let option of options" class="button dropdown-item" 
+              [innerText]="getOptionLabel(option)" 
+              (click)="onOptionSelect(option)"></span>
       </div>
     </div>
     </div>

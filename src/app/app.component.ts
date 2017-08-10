@@ -6,19 +6,48 @@
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    options$: string[] = [];
-
+    options$: any[] = [];
+    selectedOption$: any;
     ngOnInit() {
-        this.options$.push("one", "two", "three", "four", "five");
+        this.options$ = [
+            {
+                name: 'Option 1',
+                value: 1
+            },
+            {
+                name: 'Option 2',
+                value: 2
+            },
+            {
+                name: 'Option 3',
+                value: 3
+            }
+        ];
     }
 
     loadNextPage(page: number) {
         console.log(page);
-        this.options$.push("one"+ page, "two"+ page, "three"+ page, "four"+ page, "five"+ page);
+        this.options$.push({
+            name: 'Option 1 ' + page,
+            value: 1
+        },
+            {
+                name: 'Option 2' + page,
+                value: 2
+            },
+            {
+                name: 'Option 3' + page,
+                value: 3
+            });
     }
 
     search(value: string) {
         console.log(value);
-        this.options$ = this.options$.filter(i => i.startsWith(value));
+        this.options$ = this.options$.filter(i => i.name.startsWith(value));
+    }
+
+    onSelect(option: any) {
+        console.log(option.name);
+        this.selectedOption$ = option;
     }
 }
