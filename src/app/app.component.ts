@@ -21,6 +21,18 @@ export class AppComponent implements OnInit {
             {
                 name: 'Option 3',
                 value: 3
+            },
+            {
+                name: 'Option 4',
+                value: 4
+            },
+            {
+                name: 'Option 5',
+                value: 5
+            },
+            {
+                name: 'Option 6',
+                value: 6
             }
         ];
     }

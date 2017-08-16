@@ -1,38 +1,21 @@
 ﻿<label>From Select</label>
-<div class="select-container" (click)="visible = true">
-  Select Me
-  <div class="select-options-container" *ngIf="visible">
-    <div class="select-options"
-         infinite-scroll
-         [scrollWindow]="false"
-         [infiniteScrollDistance]="2"
-         [infiniteScrollThrottle]="100"
-         (scrolled)="onScrollDown($event)">
-      <div *ngFor="let option of options" class="select-option-item" (click)="onOptionSelect(option)">
-        {{option}}
-      </div>
-    </div>
-  </div>
-</div>
 
-<br/>
-<label>From bootstrap select</label>
-<div class="col">
-  <div ngbDropdown class="d-inline-block" [autoClose]="false">
-    <button class="btn btn-outline" id="dropdownBasic1" ngbDropdownToggle>Select Me</button>
-    
-    <div class="dropdown-menu" aria-labelledby="dropdownBasic1">
-      <input #myInput placeholder="Paste name..." (input)="filterItem(myInput.value)" />
-      <div class="select-options"
-           infinite-scroll
-           [scrollWindow]="false"
-           [infiniteScrollDistance]="2"
-           [infiniteScrollThrottle]="100"
-           (scrolled)="onScrollDown($event)">
-        <span *ngFor="let option of options" class="button dropdown-item" 
-              [innerText]="getOptionLabel(option)" 
-              (click)="onOptionSelect(option)"></span>
-      </div>
-    </div>
-    </div>
+<div #dropdownEl class="dropdown">
+  <button (click)="onOpenSelect()" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{placeholder}}
+  </button>
+  
+  <div #dropdownMenuEl
+       class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" 
+       style="overflow-y: scroll; position: absolute; transform: translate3d(0px, 37px, 0px); top: 0px; left: 0px; will-change: transform;"
+       infinite-scroll
+       [scrollWindow]="false"
+       [infiniteScrollDistance]="2"
+       [infiniteScrollThrottle]="100"
+       (scrolled)="onScrollDown($event)">
+    <input #myInput placeholder="Paste name..." (input)="filterItem(myInput.value)" />
+    <span class="dropdown-item" *ngFor="let option of options"
+          [innerText]="getOptionLabel(option)"
+          (click)="onOptionSelect(option)"></span>     
+  </div>
 </div>

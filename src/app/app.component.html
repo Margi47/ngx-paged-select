@@ -2,6 +2,8 @@
 <app-select [options]="options$" 
             [total]="40" 
             [key]="'name'"
+            [placeholder]="'Select Me'"
+            [showNum]="5"
             (onScroll)="loadNextPage($event)"
             (onSearch)="search($event)"
             (optionSelected)="onSelect($event)"></app-select>
