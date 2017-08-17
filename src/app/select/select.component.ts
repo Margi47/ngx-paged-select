@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Renderer } from '@angular/core';
+import { Observable, Subject } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-select',
@@ -7,31 +8,39 @@
 })
 export class SelectComponent implements OnInit {
     @Input() options: any[];
-    @Input() total: number;
+    @Input() hasMoreOptions: boolean;
     @Input() key: string;
     @Input() placeholder: string = "Select";
     @Input() showNum: number;
-    @Output() onScroll = new EventEmitter<number>();
+    @Output() onScroll = new EventEmitter<any>();
     @Output() onSearch = new EventEmitter<string>();
     @Output() optionSelected = new EventEmitter<any>();
 
     @ViewChild('dropdownEl') dropdown;
     @ViewChild('dropdownMenuEl') dropdownMenu;
+    @ViewChild('scrollEl') scroll;
 
-    constructor(private renderer: Renderer) { }
+    public search = new Subject<string>();
+
+    page: number = 1;
+    filter: string = "";
+    selectOpened: boolean = false;
+
+    constructor(private renderer: Renderer) {
+        const observable = this.search
+            .debounceTime(400)
+            .distinctUntilChanged()
+            .subscribe((data) => {
+                this.onSearch.emit(data);
+            });
+    }
 
     ngOnInit() {
-        console.log(this.options);
         if (!this.showNum) {
             this.showNum = this.options.length;
         }
-        console.log(this.showNum);
-        this.renderer.setElementStyle(this.dropdownMenu.nativeElement, 'height', (100 * this.showNum).toString()+'%');
+        this.renderer.setElementStyle(this.scroll.nativeElement, 'height', (31.4667 * this.showNum).toString() + 'px');
     }
-
-    visible: boolean = false;
-    page: number = 1;
-    selectOpened: boolean = false;
 
     onOpenSelect() {
         if (!this.selectOpened) {
@@ -48,13 +57,14 @@ export class SelectComponent implements OnInit {
 
     onScrollDown(event: any) {
         this.page++;
-        if (this.page <= this.total) {
-            this.onScroll.emit(this.page);
+        if (this.hasMoreOptions) {
+            this.onScroll.emit({ page: this.page, filter: this.filter });
         }       
     }
 
     onOptionSelect(option: any) {
         this.optionSelected.emit(option);
+        this.onOpenSelect();
     }
 
     filterItem(value: any) {
@@ -62,7 +72,6 @@ export class SelectComponent implements OnInit {
     }
 
     getOptionLabel(option: any): string {
-        console.log(this.key + option);
         if (this.key) {
             if (option[this.key]) {
                 return option[this.key];

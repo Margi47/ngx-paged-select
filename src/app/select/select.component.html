@@ -1,21 +1,27 @@
 ﻿<label>From Select</label>
 
 <div #dropdownEl class="dropdown">
-  <button (click)="onOpenSelect()" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <button (click)="onOpenSelect()" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" 
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     {{placeholder}}
   </button>
   
   <div #dropdownMenuEl
        class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" 
-       style="overflow-y: scroll; position: absolute; transform: translate3d(0px, 37px, 0px); top: 0px; left: 0px; will-change: transform;"
+       style="height:auto;">
+    <div style="border-bottom: 1px solid rgba(0,0,0,.15); padding:0rem 0.5rem 0.5rem 0.5rem">
+      <input #searchInput type="search" autofocus class="form-control ds-input" placeholder="Search..." 
+             (input)="search.next(searchInput.value)">
+    </div>
+    <div #scrollEl style="overflow-y: scroll;"
        infinite-scroll
        [scrollWindow]="false"
        [infiniteScrollDistance]="2"
        [infiniteScrollThrottle]="100"
        (scrolled)="onScrollDown($event)">
-    <input #myInput placeholder="Paste name..." (input)="filterItem(myInput.value)" />
-    <span class="dropdown-item" *ngFor="let option of options"
-          [innerText]="getOptionLabel(option)"
-          (click)="onOptionSelect(option)"></span>     
+      <span class="dropdown-item" *ngFor="let option of options"
+            [innerText]="getOptionLabel(option)"
+            (click)="onOptionSelect(option)"></span> 
+    </div>    
   </div>
 </div>
