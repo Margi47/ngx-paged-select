@@ -18,6 +18,7 @@ export class SelectComponent implements OnInit {
 
     @ViewChild('dropdownEl') dropdown;
     @ViewChild('dropdownMenuEl') dropdownMenu;
+    @ViewChild('dropdownItemEl') dropdownItem;
     @ViewChild('scrollEl') scroll;
 
     public search = new Subject<string>();
@@ -25,6 +26,7 @@ export class SelectComponent implements OnInit {
     page: number = 1;
     filter: string = "";
     selectOpened: boolean = false;
+    optionIndex: number = 0;
 
     constructor(private renderer: Renderer) {
         const observable = this.search
@@ -47,12 +49,30 @@ export class SelectComponent implements OnInit {
             this.selectOpened = true;
             this.renderer.setElementClass(this.dropdown.nativeElement, 'show', true);
             this.renderer.setElementClass(this.dropdownMenu.nativeElement, 'show', true);
+            this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex], 'dropdown-item-highlighted', true);
+            
         }
         else {
             this.selectOpened = false;
             this.renderer.setElementClass(this.dropdown.nativeElement, 'show', false);
             this.renderer.setElementClass(this.dropdownMenu.nativeElement, 'show', false);
         }
+    }
+
+    onKeyDown(value: any) {
+        this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex], 'dropdown-item-highlighted', false);
+
+        if (value.key == "ArrowDown") {
+            console.log(value);
+            this.optionIndex++;
+        }
+
+        if (value.key == "ArrowUp") {
+            console.log(value);
+            this.optionIndex--;
+        }
+
+        this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex], 'dropdown-item-highlighted', true);
     }
 
     onScrollDown(event: any) {
@@ -64,7 +84,7 @@ export class SelectComponent implements OnInit {
 
     onOptionSelect(option: any) {
         this.optionSelected.emit(option);
-        this.onOpenSelect();
+        //this.onOpenSelect();
     }
 
     filterItem(value: any) {

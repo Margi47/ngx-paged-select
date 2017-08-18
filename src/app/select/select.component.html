@@ -11,7 +11,7 @@
        style="height:auto;">
     <div style="border-bottom: 1px solid rgba(0,0,0,.15); padding:0rem 0.5rem 0.5rem 0.5rem">
       <input #searchInput type="search" autofocus class="form-control ds-input" placeholder="Search..." 
-             (input)="search.next(searchInput.value)">
+             (input)="search.next(searchInput.value)" (keydown)="onKeyDown($event)">
     </div>
     <div #scrollEl style="overflow-y: scroll;"
        infinite-scroll
@@ -19,7 +19,7 @@
        [infiniteScrollDistance]="2"
        [infiniteScrollThrottle]="100"
        (scrolled)="onScrollDown($event)">
-      <span class="dropdown-item" *ngFor="let option of options"
+      <span #dropdownItemEl class="dropdown-item" *ngFor="let option of options"
             [innerText]="getOptionLabel(option)"
             (click)="onOptionSelect(option)"></span> 
     </div>    
