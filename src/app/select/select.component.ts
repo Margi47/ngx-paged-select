@@ -23,6 +23,9 @@ export class SelectComponent implements OnInit {
 
     public search = new Subject<string>();
 
+    topPosition: number;
+    bottomPosition: number;
+    rowHeight: number;
     page: number = 1;
     filter: string = "";
     selectOpened: boolean = false;
@@ -37,19 +40,27 @@ export class SelectComponent implements OnInit {
             });
     }
 
-    ngOnInit() {
-        if (!this.showNum) {
-            this.showNum = this.options.length;
-        }
-        this.renderer.setElementStyle(this.scroll.nativeElement, 'height', (31.4667 * this.showNum).toString() + 'px');
-    }
+    ngOnInit() {}
 
     onOpenSelect() {
         if (!this.selectOpened) {
             this.selectOpened = true;
             this.renderer.setElementClass(this.dropdown.nativeElement, 'show', true);
             this.renderer.setElementClass(this.dropdownMenu.nativeElement, 'show', true);
+
+            this.rowHeight = this.scroll.nativeElement.children[0].offsetHeight;
+
+            if (!this.showNum) {
+                this.showNum = this.options.length;
+            }
+
+            this.renderer.setElementStyle(this.scroll.nativeElement, 'height', (this.rowHeight * this.showNum).toString() + 'px');
             this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex], 'dropdown-item-highlighted', true);
+
+            this.topPosition = this.scroll.nativeElement.offsetTop +1;
+            this.bottomPosition = this.scroll.nativeElement.offsetTop + (this.rowHeight * (this.showNum-1));
+
+            console.log(this.rowHeight, this.topPosition, this.showNum, this.bottomPosition);
             
         }
         else {
@@ -61,21 +72,41 @@ export class SelectComponent implements OnInit {
 
     onKeyDown(value: any) {
         this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex], 'dropdown-item-highlighted', false);
+        
 
         if (value.key == "ArrowDown") {
-            console.log(value);
             this.optionIndex++;
-        }
 
-        if (value.key == "ArrowUp") {
-            console.log(value);
+            if (this.optionIndex == this.showNum * this.page) {
+                this.onScrollDown();
+            }
+
+            let curPosition = this.scroll.nativeElement.children[this.optionIndex].offsetTop;
+            console.log(curPosition);
+            if (curPosition > this.bottomPosition) {
+                this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(false);
+                this.topPosition += this.rowHeight;
+                this.bottomPosition += this.rowHeight;
+            }
+
+        }
+        else if (value.key == "ArrowUp") {
             this.optionIndex--;
+
+            let curPosition = this.scroll.nativeElement.children[this.optionIndex].offsetTop;
+            console.log(curPosition);
+            if (curPosition < this.topPosition) {
+                this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
+                this.topPosition -= this.rowHeight;
+                this.bottomPosition -= this.rowHeight;
+            }
         }
 
+        console.log(this.topPosition, this.bottomPosition);
         this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex], 'dropdown-item-highlighted', true);
     }
 
-    onScrollDown(event: any) {
+    onScrollDown() {
         this.page++;
         if (this.hasMoreOptions) {
             this.onScroll.emit({ page: this.page, filter: this.filter });
@@ -88,6 +119,7 @@ export class SelectComponent implements OnInit {
     }
 
     filterItem(value: any) {
+        this.filter = value;
         this.onSearch.emit(value);
     }
 
