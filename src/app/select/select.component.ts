@@ -40,7 +40,11 @@ export class SelectComponent implements OnInit {
             });
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        if (!this.showNum) {
+            this.showNum = this.options.length;
+        }
+    }
 
     onOpenSelect() {
         if (!this.selectOpened) {
@@ -48,20 +52,16 @@ export class SelectComponent implements OnInit {
             this.renderer.setElementClass(this.dropdown.nativeElement, 'show', true);
             this.renderer.setElementClass(this.dropdownMenu.nativeElement, 'show', true);
 
-            this.rowHeight = this.scroll.nativeElement.children[0].offsetHeight;
-
-            if (!this.showNum) {
-                this.showNum = this.options.length;
-            }
+            this.rowHeight = this.scroll.nativeElement.children[0].getBoundingClientRect().height;
 
             this.renderer.setElementStyle(this.scroll.nativeElement, 'height', (this.rowHeight * this.showNum).toString() + 'px');
-            this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex], 'dropdown-item-highlighted', true);
 
-            this.topPosition = this.scroll.nativeElement.offsetTop +1;
-            this.bottomPosition = this.scroll.nativeElement.offsetTop + (this.rowHeight * (this.showNum-1));
+            let rect = this.scroll.nativeElement.getBoundingClientRect();
+            this.topPosition = rect.top;
+            this.bottomPosition = rect.bottom;
 
-            console.log(this.rowHeight, this.topPosition, this.showNum, this.bottomPosition);
-            
+            this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
+                'dropdown-item-highlighted', true);            
         }
         else {
             this.selectOpened = false;
@@ -71,38 +71,39 @@ export class SelectComponent implements OnInit {
     }
 
     onKeyDown(value: any) {
-        this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex], 'dropdown-item-highlighted', false);
+        this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
+            'dropdown-item-highlighted', false);
         
-
         if (value.key == "ArrowDown") {
-            this.optionIndex++;
+            console.log(this.options.length);
+            console.log(this.optionIndex);
+            if (this.hasMoreOptions || (this.optionIndex + 1) < this.options.length) {
 
-            if (this.optionIndex == this.showNum * this.page) {
-                this.onScrollDown();
+                this.optionIndex++;
+
+                if (this.optionIndex == this.showNum * this.page) {
+                    this.onScrollDown();
+                }
+
+                let curElement = this.scroll.nativeElement.children[this.optionIndex].getBoundingClientRect();
+                console.log(curElement.bottom, this.bottomPosition);
+                if (curElement.bottom > this.bottomPosition) {
+                    this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(false);
+                }
             }
-
-            let curPosition = this.scroll.nativeElement.children[this.optionIndex].offsetTop;
-            console.log(curPosition);
-            if (curPosition > this.bottomPosition) {
-                this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(false);
-                this.topPosition += this.rowHeight;
-                this.bottomPosition += this.rowHeight;
-            }
-
         }
         else if (value.key == "ArrowUp") {
-            this.optionIndex--;
+            if (this.optionIndex != 0) {
 
-            let curPosition = this.scroll.nativeElement.children[this.optionIndex].offsetTop;
-            console.log(curPosition);
-            if (curPosition < this.topPosition) {
-                this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
-                this.topPosition -= this.rowHeight;
-                this.bottomPosition -= this.rowHeight;
+                this.optionIndex--;
+
+                let curElement = this.scroll.nativeElement.children[this.optionIndex].getBoundingClientRect();
+                console.log(curElement.top, this.topPosition);
+                if (curElement.top < this.topPosition) {
+                    this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
+                }
             }
         }
-
-        console.log(this.topPosition, this.bottomPosition);
         this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex], 'dropdown-item-highlighted', true);
     }
 
@@ -115,7 +116,6 @@ export class SelectComponent implements OnInit {
 
     onOptionSelect(option: any) {
         this.optionSelected.emit(option);
-        //this.onOpenSelect();
     }
 
     filterItem(value: any) {
