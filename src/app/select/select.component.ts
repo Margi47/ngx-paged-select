@@ -20,6 +20,8 @@ export class SelectComponent implements OnInit {
     @ViewChild('dropdownMenuEl') dropdownMenu;
     @ViewChild('dropdownItemEl') dropdownItem;
     @ViewChild('scrollEl') scroll;
+    @ViewChild('mainButton') mainButton;
+    @ViewChild('searchInputEl') searchInput;
 
     public search = new Subject<string>();
 
@@ -46,7 +48,7 @@ export class SelectComponent implements OnInit {
         }
     }
 
-    onOpenSelect() {
+    onClickSelect() {
         if (!this.selectOpened) {
             this.selectOpened = true;
             this.renderer.setElementClass(this.dropdown.nativeElement, 'show', true);
@@ -61,19 +63,21 @@ export class SelectComponent implements OnInit {
             this.bottomPosition = rect.bottom;
 
             this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
-                'dropdown-item-highlighted', true);            
+                'dropdown-item-highlighted', true);
+            this.searchInput.nativeElement.focus();
         }
         else {
             this.selectOpened = false;
             this.renderer.setElementClass(this.dropdown.nativeElement, 'show', false);
             this.renderer.setElementClass(this.dropdownMenu.nativeElement, 'show', false);
+            this.mainButton.nativeElement.focus();
         }
     }
 
     onKeyDown(value: any) {
         this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
             'dropdown-item-highlighted', false);
-        
+        console.log(value.key);
         if (value.key == "ArrowDown") {
             console.log(this.options.length);
             console.log(this.optionIndex);
@@ -103,6 +107,12 @@ export class SelectComponent implements OnInit {
                     this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
                 }
             }
+        }
+        else if (value.key == "Enter") {
+            this.optionSelected.emit(this.options[this.optionIndex]);
+        }
+        else if (value.key == "Escape") {
+            this.onClickSelect();
         }
         this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex], 'dropdown-item-highlighted', true);
     }

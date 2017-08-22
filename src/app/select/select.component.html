@@ -1,7 +1,7 @@
 ﻿<label>From Select</label>
 
 <div #dropdownEl class="dropdown">
-  <button (click)="onOpenSelect()" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" 
+  <button #mainButton (click)="onClickSelect()" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" 
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     {{placeholder}}
   </button>
@@ -10,8 +10,8 @@
        class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" 
        style="height:auto;">
     <div style="border-bottom: 1px solid rgba(0,0,0,.15); padding:0rem 0.5rem 0.5rem 0.5rem">
-      <input #searchInput type="search" autofocus class="form-control ds-input" placeholder="Search..." 
-             (input)="search.next(searchInput.value)" (keydown)="onKeyDown($event)">
+      <input #searchInputEl type="search" autofocus class="form-control ds-input" placeholder="Search..." 
+             (input)="search.next(searchInputEl.value)" (keydown)="onKeyDown($event)">
     </div>
     <div #scrollEl style="overflow-y: scroll;"
        infinite-scroll
