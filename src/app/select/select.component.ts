@@ -82,6 +82,14 @@ export class SelectComponent implements OnInit {
         }
     }
 
+    onMouseOver(option) {
+        this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
+            'dropdown-item-highlighted', false);
+        this.optionIndex = this.options.indexOf(option);
+        this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
+            'dropdown-item-highlighted', true);
+    }
+
     onKeyDown(value: any) {
         this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
             'dropdown-item-highlighted', false);

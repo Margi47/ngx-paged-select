@@ -21,7 +21,8 @@
        (scrolled)="onScrollDown($event)">
       <span #dropdownItemEl class="dropdown-item" *ngFor="let option of options"
             [innerText]="getOptionLabel(option)"
-            (click)="onOptionSelect(option)"></span> 
+            (click)="onOptionSelect(option)"
+            (mouseenter)="onMouseOver(option)"></span> 
     </div>    
   </div>
 </div>
