@@ -56,7 +56,8 @@ export class SelectComponent implements OnInit {
 
             this.rowHeight = this.scroll.nativeElement.children[0].getBoundingClientRect().height;
 
-            this.renderer.setElementStyle(this.scroll.nativeElement, 'height', (this.rowHeight * this.showNum).toString() + 'px');
+            this.renderer.setElementStyle(this.scroll.nativeElement, 'height',
+                (this.rowHeight * this.showNum).toString() + 'px');
 
             let rect = this.scroll.nativeElement.getBoundingClientRect();
             this.topPosition = rect.top;
@@ -93,70 +94,80 @@ export class SelectComponent implements OnInit {
     onKeyDown(value: any) {
         this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
             'dropdown-item-highlighted', false);
-        console.log(value.key);
-        if (value.key == "ArrowDown") {
-            console.log(this.options.length);
-            console.log(this.optionIndex);
-            if (this.hasMoreOptions || (this.optionIndex + 1) < this.options.length) {
 
-                this.optionIndex++;
+        switch (value.key) {
+            case "ArrowDown": {
+                if (this.hasMoreOptions || (this.optionIndex + 1) < this.options.length) {
 
-                if (this.optionIndex == this.options.length-2) {
-                    this.onScrollDown();
-                }
+                    this.optionIndex++;
 
-                let curElement = this.scroll.nativeElement.children[this.optionIndex].getBoundingClientRect();
-                console.log(curElement.bottom, this.bottomPosition);
-                if (curElement.bottom > this.bottomPosition) {
-                    this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(false);
-                }
-            }
-        }
-        else if (value.key == "ArrowUp") {
-            if (this.optionIndex != 0) {
-
-                this.optionIndex--;
-
-                let curElement = this.scroll.nativeElement.children[this.optionIndex].getBoundingClientRect();
-                console.log(curElement.top, this.topPosition);
-                if (curElement.top < this.topPosition) {
-                    this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
-                }
-            }
-        }
-        else if (value.key == "Enter") {
-            this.optionSelected.emit(this.options[this.optionIndex]);
-        }
-        else if (value.key == "Escape") {
-            this.onClickSelect();
-        }
-        else if (value.key == "PageDown") {
-            if (this.hasMoreOptions || (this.optionIndex != this.options.length-1)) {
-                if (this.hasMoreOptions || (this.optionIndex < this.options.length - this.showNum)) {
-                    this.optionIndex += this.showNum;
-
-                    if (this.hasMoreOptions && this.optionIndex >= this.options.length - 2) {
+                    if (this.hasMoreOptions && this.optionIndex == this.options.length - 2) {
                         this.onScrollDown();
                     }
+
+                    let curElement = this.scroll.nativeElement.children[this.optionIndex].getBoundingClientRect();
+                    console.log(curElement.bottom, this.bottomPosition);
+
+                    if (curElement.bottom > this.bottomPosition) {
+                        this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(false);
+                    }
                 }
-                else {
-                    this.optionIndex = this.options.length - 1;
+
+                break;
+            }
+            case "ArrowUp": {
+                if (this.optionIndex != 0) {
+
+                    this.optionIndex--;
+
+                    let curElement = this.scroll.nativeElement.children[this.optionIndex].getBoundingClientRect();
+                    console.log(curElement.top, this.topPosition);
+                    if (curElement.top < this.topPosition) {
+                        this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
+                    }
                 }
-                this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(false);
+                break;
+            }
+            case "Enter": {
+                this.optionSelected.emit(this.options[this.optionIndex]);
+                break;
+            }
+            case "Escape": {
+                this.onClickSelect();
+                break;
+            }
+            case "PageDown": {
+                if (this.hasMoreOptions || (this.optionIndex != this.options.length - 1)) {
+                    if (this.hasMoreOptions || (this.optionIndex < this.options.length - this.showNum)) {
+                        this.optionIndex += this.showNum;
+
+                        if (this.hasMoreOptions && this.optionIndex >= this.options.length - 2) {
+                            this.onScrollDown();
+                        }
+                    }
+                    else {
+                        this.optionIndex = this.options.length - 1;
+                    }
+                    this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(false);
+                }
+                break;
+            }
+            case "PageUp": {
+                if (this.optionIndex != 0) {
+                    if (this.optionIndex >= this.showNum) {
+                        this.optionIndex -= this.showNum;
+                    }
+                    else {
+                        this.optionIndex = 0;
+                    }
+                    this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
+                }
+                break;
             }
         }
-        else if (value.key == "PageUp") {
-            if (this.optionIndex != 0) {
-                if (this.optionIndex >= this.showNum) {
-                    this.optionIndex -= this.showNum;
-                }
-                else {
-                    this.optionIndex = 0;
-                }
-                this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
-            }
-        }
-        this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex], 'dropdown-item-highlighted', true);
+
+        this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
+            'dropdown-item-highlighted', true);
     }
 
     onScrollDown() {
