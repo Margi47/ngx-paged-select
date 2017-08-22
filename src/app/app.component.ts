@@ -53,9 +53,21 @@ export class AppComponent implements OnInit {
             {
                 name: 'Three ' + data.page,
                 value: 3
+            },
+            {
+                name: 'Four ' + data.page,
+                value: 4
+            },
+            {
+                name: 'Five ' + data.page,
+                value: 5
+            },
+            {
+                name: 'Six ' + data.page,
+                value: 6
             });
 
-        if (data.page == 40) {
+        if (data.page == 10) {
             this.hasMoreOptions = false;
         }
     }

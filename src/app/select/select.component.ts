@@ -67,10 +67,18 @@ export class SelectComponent implements OnInit {
             this.searchInput.nativeElement.focus();
         }
         else {
+            this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
+                'dropdown-item-highlighted', false);
+            this.optionIndex = 0;
+            this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
+            this.page = 1;
+            this.filter = "";
+
             this.selectOpened = false;
             this.renderer.setElementClass(this.dropdown.nativeElement, 'show', false);
             this.renderer.setElementClass(this.dropdownMenu.nativeElement, 'show', false);
             this.mainButton.nativeElement.focus();
+
         }
     }
 
@@ -85,7 +93,7 @@ export class SelectComponent implements OnInit {
 
                 this.optionIndex++;
 
-                if (this.optionIndex == this.showNum * this.page) {
+                if (this.optionIndex == this.options.length-2) {
                     this.onScrollDown();
                 }
 
@@ -113,6 +121,32 @@ export class SelectComponent implements OnInit {
         }
         else if (value.key == "Escape") {
             this.onClickSelect();
+        }
+        else if (value.key == "PageDown") {
+            if (this.hasMoreOptions || (this.optionIndex != this.options.length-1)) {
+                if (this.hasMoreOptions || (this.optionIndex < this.options.length - this.showNum)) {
+                    this.optionIndex += this.showNum;
+
+                    if (this.hasMoreOptions && this.optionIndex >= this.options.length - 2) {
+                        this.onScrollDown();
+                    }
+                }
+                else {
+                    this.optionIndex = this.options.length - 1;
+                }
+                this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(false);
+            }
+        }
+        else if (value.key == "PageUp") {
+            if (this.optionIndex != 0) {
+                if (this.optionIndex >= this.showNum) {
+                    this.optionIndex -= this.showNum;
+                }
+                else {
+                    this.optionIndex = 0;
+                }
+                this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
+            }
         }
         this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex], 'dropdown-item-highlighted', true);
     }
