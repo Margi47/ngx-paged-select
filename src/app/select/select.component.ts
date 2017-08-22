@@ -148,6 +148,11 @@ export class SelectComponent implements OnInit {
                     else {
                         this.optionIndex = this.options.length - 1;
                     }
+
+                    if (this.optionIndex > this.scroll.nativeElement.children.length-1) {
+                        this.optionIndex = this.scroll.nativeElement.children.length-1;
+                    }
+
                     this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(false);
                 }
                 break;
