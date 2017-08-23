@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Renderer } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Renderer } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 
 @Component({
@@ -129,7 +129,7 @@ export class SelectComponent implements OnInit {
                 break;
             }
             case "Enter": {
-                this.optionSelected.emit(this.options[this.optionIndex]);
+                this.onOptionSelect(this.options[this.optionIndex]);
                 break;
             }
             case "Escape": {
@@ -184,6 +184,7 @@ export class SelectComponent implements OnInit {
 
     onOptionSelect(option: any) {
         this.optionSelected.emit(option);
+        this.onClickSelect();
     }
 
     filterItem(value: any) {
