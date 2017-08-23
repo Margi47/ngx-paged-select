@@ -1,14 +1,18 @@
-﻿<label>From Select</label>
+<label>From Select</label>
 
 <div #dropdownEl class="dropdown">
-  <button #mainButton (click)="onClickSelect()" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" 
-          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    {{placeholder}}
-  </button>
-  
+
+    <div #mainButton (click)="onClickSelect()" class="form-control"
+         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span>
+        {{placeholder}}
+      </span>
+      <span class="dropdown-toggle float-right"></span>
+    </div>
+
   <div #dropdownMenuEl
        class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" 
-       style="height:auto;">
+       style="height:auto; width:100%">
     <div style="border-bottom: 1px solid rgba(0,0,0,.15); padding:0rem 0.5rem 0.5rem 0.5rem">
       <input #searchInputEl type="search" autofocus class="form-control ds-input" placeholder="Search..." 
              (input)="search.next(searchInputEl.value)" (keydown)="onKeyDown($event)">

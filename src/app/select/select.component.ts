@@ -184,6 +184,7 @@ export class SelectComponent implements OnInit {
 
     onOptionSelect(option: any) {
         this.optionSelected.emit(option);
+        this.placeholder = this.getOptionLabel(option);
         this.onClickSelect();
     }
 

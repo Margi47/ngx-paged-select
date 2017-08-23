@@ -1,10 +1,11 @@
-﻿<label>From App Component</label>
-<app-select [options]="options$" 
-            [hasMoreOptions]="hasMoreOptions" 
-            [key]="'name'"
-            [placeholder]="'Select Me'"
-            [showNum]="5"
-            (onScroll)="loadNextPage($event)"
-            (onSearch)="search($event)"
-            (optionSelected)="onSelect($event)"></app-select>
-
+<label>From App Component</label>
+<div style="width:300px; margin:5px">
+  <app-select [options]="options$"
+              [hasMoreOptions]="hasMoreOptions"
+              [key]="'name'"
+              [placeholder]="'Select Me'"
+              [showNum]="5"
+              (onScroll)="loadNextPage($event)"
+              (onSearch)="search($event)"
+              (optionSelected)="onSelect($event)"></app-select>
+</div>
