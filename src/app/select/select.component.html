@@ -1,32 +1,30 @@
 <label>From Select</label>
 
 <div #dropdownEl class="dropdown">
-
-    <div #mainButton (click)="onClickSelect()" class="form-control"
-         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span>
-        {{placeholder}}
-      </span>
-      <span class="dropdown-toggle float-right"></span>
-    </div>
+  <div class="input-group" (click)="onClickSelect()">
+    <span #mainButton  class="form-control"
+          id="dropdownMenuButton" aria-expanded="false">{{placeholder}}</span>
+    <span class="dropdown-toggle input-group-addon"></span>  
+  </div>
 
   <div #dropdownMenuEl
-       class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" 
-       style="height:auto; width:100%">
+       class="dropdown-menu" 
+       style="width:100%">
     <div style="border-bottom: 1px solid rgba(0,0,0,.15); padding:0rem 0.5rem 0.5rem 0.5rem">
-      <input #searchInputEl type="search" autofocus class="form-control ds-input" placeholder="Search..." 
+      <input #searchInputEl type="search" autofocus class="form-control ds-input" placeholder="Search..."
              (input)="search.next(searchInputEl.value)" (keydown)="onKeyDown($event)">
     </div>
-    <div #scrollEl style="overflow-y: scroll;"
-       infinite-scroll
-       [scrollWindow]="false"
-       [infiniteScrollDistance]="2"
-       [infiniteScrollThrottle]="100"
-       (scrolled)="onScrollDown($event)">
+    <div #scrollEl
+         style="overflow-y: scroll;"
+         infinite-scroll
+         [scrollWindow]="false"
+         [infiniteScrollDistance]="2"
+         [infiniteScrollThrottle]="100"
+         (scrolled)="onScrollDown($event)">
       <span #dropdownItemEl class="dropdown-item" *ngFor="let option of options"
             [innerText]="getOptionLabel(option)"
             (click)="onOptionSelect(option)"
-            (mouseenter)="onMouseOver(option)"></span> 
-    </div>    
+            (mouseenter)="onMouseOver(option)"></span>
+    </div>
   </div>
-</div>
+  </div>
