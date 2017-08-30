@@ -64,12 +64,12 @@ export class SelectComponent implements OnInit {
             this.bottomPosition = rect.bottom;
 
             this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
-                'dropdown-item-highlighted', true);
+                'active', true);
             this.searchInput.nativeElement.focus();
         }
         else {
             this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
-                'dropdown-item-highlighted', false);
+                'active', false);
             this.optionIndex = 0;
             this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
             this.page = 1;
@@ -85,15 +85,15 @@ export class SelectComponent implements OnInit {
 
     onMouseOver(option) {
         this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
-            'dropdown-item-highlighted', false);
+            'active', false);
         this.optionIndex = this.options.indexOf(option);
         this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
-            'dropdown-item-highlighted', true);
+            'active', true);
     }
 
     onKeyDown(value: any) {
         this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
-            'dropdown-item-highlighted', false);
+            'active', false);
 
         switch (value.key) {
             case "ArrowDown": {
@@ -172,7 +172,7 @@ export class SelectComponent implements OnInit {
         }
 
         this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
-            'dropdown-item-highlighted', true);
+            'active', true);
     }
 
     onScrollDown() {
