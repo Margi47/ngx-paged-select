@@ -49,12 +49,13 @@ export class SelectComponent implements OnInit {
     }
 
     onClickSelect() {
+        let elements = this.scroll.nativeElement.children;
         if (!this.selectOpened) {
             this.selectOpened = true;
             this.renderer.setElementClass(this.dropdown.nativeElement, 'show', true);
             this.renderer.setElementClass(this.dropdownMenu.nativeElement, 'show', true);
 
-            this.rowHeight = this.scroll.nativeElement.children[0].getBoundingClientRect().height;
+            this.rowHeight = elements[0].getBoundingClientRect().height;
 
             this.renderer.setElementStyle(this.scroll.nativeElement, 'height',
                 (this.rowHeight * this.showNum).toString() + 'px');
@@ -63,15 +64,13 @@ export class SelectComponent implements OnInit {
             this.topPosition = rect.top;
             this.bottomPosition = rect.bottom;
 
-            this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
-                'active', true);
+            this.renderer.setElementClass(elements[this.optionIndex], 'active', true);
             this.searchInput.nativeElement.focus();
         }
         else {
-            this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
-                'active', false);
+            this.renderer.setElementClass(elements[this.optionIndex], 'active', false);
             this.optionIndex = 0;
-            this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
+            elements[this.optionIndex].scrollIntoView(true);
             this.page = 1;
             this.filter = "";
 
@@ -84,16 +83,15 @@ export class SelectComponent implements OnInit {
     }
 
     onMouseOver(option) {
-        this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
-            'active', false);
+        let elements = this.scroll.nativeElement.children;
+        this.renderer.setElementClass(elements[this.optionIndex], 'active', false);
         this.optionIndex = this.options.indexOf(option);
-        this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
-            'active', true);
+        this.renderer.setElementClass(elements[this.optionIndex], 'active', true);
     }
 
     onKeyDown(value: any) {
-        this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
-            'active', false);
+        let elements = this.scroll.nativeElement.children;
+        this.renderer.setElementClass(elements[this.optionIndex], 'active', false);
 
         switch (value.key) {
             case "ArrowDown": {
@@ -105,11 +103,10 @@ export class SelectComponent implements OnInit {
                         this.onScrollDown();
                     }
 
-                    let curElement = this.scroll.nativeElement.children[this.optionIndex].getBoundingClientRect();
-                    console.log(curElement.bottom, this.bottomPosition);
+                    let curElement = elements[this.optionIndex].getBoundingClientRect();
 
                     if (curElement.bottom > this.bottomPosition) {
-                        this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(false);
+                        elements[this.optionIndex].scrollIntoView(false);
                     }
                 }
 
@@ -120,20 +117,15 @@ export class SelectComponent implements OnInit {
 
                     this.optionIndex--;
 
-                    let curElement = this.scroll.nativeElement.children[this.optionIndex].getBoundingClientRect();
-                    console.log(curElement.top, this.topPosition);
+                    let curElement = elements[this.optionIndex].getBoundingClientRect();
                     if (curElement.top < this.topPosition) {
-                        this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
+                        elements[this.optionIndex].scrollIntoView(true);
                     }
                 }
                 break;
             }
             case "Enter": {
                 this.onOptionSelect(this.options[this.optionIndex]);
-                break;
-            }
-            case "Escape": {
-                this.onClickSelect();
                 break;
             }
             case "PageDown": {
@@ -149,11 +141,11 @@ export class SelectComponent implements OnInit {
                         this.optionIndex = this.options.length - 1;
                     }
 
-                    if (this.optionIndex > this.scroll.nativeElement.children.length-1) {
-                        this.optionIndex = this.scroll.nativeElement.children.length-1;
+                    if (this.optionIndex > elements.length-1) {
+                        this.optionIndex = elements.length-1;
                     }
 
-                    this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(false);
+                    elements[this.optionIndex].scrollIntoView(false);
                 }
                 break;
             }
@@ -165,14 +157,17 @@ export class SelectComponent implements OnInit {
                     else {
                         this.optionIndex = 0;
                     }
-                    this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
+                    elements[this.optionIndex].scrollIntoView(true);
                 }
                 break;
             }
+            case "Escape": {
+                this.onClickSelect();
+                return;
+            }
         }
 
-        this.renderer.setElementClass(this.dropdownMenu.nativeElement.children[1].children[this.optionIndex],
-            'active', true);
+        this.renderer.setElementClass(elements[this.optionIndex], 'active', true);
     }
 
     onScrollDown() {
