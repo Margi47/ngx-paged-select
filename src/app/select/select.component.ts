@@ -12,8 +12,7 @@ export class SelectComponent implements OnInit {
     @Input() key: string;
     @Input() placeholder: string = "Select";
     @Input() showNum: number;
-    @Output() onScroll = new EventEmitter<any>();
-    @Output() onSearch = new EventEmitter<string>();
+    @Output() loadData = new EventEmitter<any>();
     @Output() optionSelected = new EventEmitter<any>();
 
     @ViewChild('dropdownEl') dropdown;
@@ -38,7 +37,7 @@ export class SelectComponent implements OnInit {
             .debounceTime(400)
             .distinctUntilChanged()
             .subscribe((data) => {
-                this.onSearch.emit(data);
+                this.loadData.emit({ page: 1, filter: data });
             });
     }
 
@@ -173,7 +172,7 @@ export class SelectComponent implements OnInit {
     onScrollDown() {
         this.page++;
         if (this.hasMoreOptions) {
-            this.onScroll.emit({ page: this.page, filter: this.filter });
+            this.loadData.emit({ page: this.page, filter: this.filter });
         }       
     }
 
@@ -181,11 +180,6 @@ export class SelectComponent implements OnInit {
         this.optionSelected.emit(option);
         this.placeholder = this.getOptionLabel(option);
         this.onClickSelect();
-    }
-
-    filterItem(value: any) {
-        this.filter = value;
-        this.onSearch.emit(value);
     }
 
     getOptionLabel(option: any): string {

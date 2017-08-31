@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -41,34 +41,39 @@ export class AppComponent implements OnInit {
     }
 
     loadNextPage(data: any) {
-        console.log(data);
-        this.options$.push({
-            name: 'One ' + data.page,
-            value: 1
-        },
-            {
-                name: 'Two ' + data.page,
-                value: 2
+        console.log(data.page);
+        if (!data.filter) {
+            this.options$.push({
+                name: 'One ' + data.page,
+                value: 1
             },
-            {
-                name: 'Three ' + data.page,
-                value: 3
-            },
-            {
-                name: 'Four ' + data.page,
-                value: 4
-            },
-            {
-                name: 'Five ' + data.page,
-                value: 5
-            },
-            {
-                name: 'Six ' + data.page,
-                value: 6
-            });
+                {
+                    name: 'Two ' + data.page,
+                    value: 2
+                },
+                {
+                    name: 'Three ' + data.page,
+                    value: 3
+                },
+                {
+                    name: 'Four ' + data.page,
+                    value: 4
+                },
+                {
+                    name: 'Five ' + data.page,
+                    value: 5
+                },
+                {
+                    name: 'Six ' + data.page,
+                    value: 6
+                });
 
-        if (data.page == 10) {
-            this.hasMoreOptions = false;
+            if (data.page == 10) {
+                this.hasMoreOptions = false;
+            }
+        }
+        else {
+            this.search(data.filter);
         }
     }
 

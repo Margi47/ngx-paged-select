@@ -5,7 +5,6 @@
               [key]="'name'"
               [placeholder]="'Select Me'"
               [showNum]="5"
-              (onScroll)="loadNextPage($event)"
-              (onSearch)="search($event)"
+              (loadData)="loadNextPage($event)"
               (optionSelected)="onSelect($event)"></app-select>
 </div>
