@@ -1,6 +1,6 @@
 <label>From Select</label>
 
-<div #dropdownEl class="dropdown">
+<div #dropdownEl class="dropdown paged-select">
   <div class="input-group" (click)="onClickSelect()">
     <span #mainButton  class="form-control"
           id="dropdownMenuButton" aria-expanded="false">{{placeholder}}</span>
@@ -8,14 +8,13 @@
   </div>
 
   <div #dropdownMenuEl
-       class="dropdown-menu" 
-       style="width:100%">
-    <div style="border-bottom: 1px solid rgba(0,0,0,.15); padding:0rem 0.5rem 0.5rem 0.5rem">
+       class="dropdown-menu">
+    <div class="search-container">
       <input #searchInputEl type="search" autofocus class="form-control ds-input" placeholder="Search..."
              (input)="search.next(searchInputEl.value)" (keydown)="onKeyDown($event)">
     </div>
     <div #scrollEl
-         style="overflow-y: scroll;"
+         class="scroll-container"
          infinite-scroll
          [scrollWindow]="false"
          [infiniteScrollDistance]="2"
