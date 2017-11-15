@@ -1,10 +1,10 @@
-import { SelectComponentPage } from './app.po';
+import { AppPage } from './app.po';
 
-describe('select-component App', () => {
-  let page: SelectComponentPage;
+describe('select-example App', () => {
+  let page: AppPage;
 
   beforeEach(() => {
-    page = new SelectComponentPage();
+    page = new AppPage();
   });
 
   it('should display welcome message', () => {
