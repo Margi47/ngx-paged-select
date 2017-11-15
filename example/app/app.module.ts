@@ -1,16 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { SelectModule } from 'ngx-paged-select';
-
+//import { SelectModule } from 'ngx-paged-select';
+import { SelectComponent } from '../../src/select.component'
 import { AppComponent } from './app.component';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll'
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SelectComponent
   ],
   imports: [
     BrowserModule,
-    SelectModule
+    InfiniteScrollModule
+    //SelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

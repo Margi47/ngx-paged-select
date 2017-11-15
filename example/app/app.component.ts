@@ -17,15 +17,19 @@ export class AppComponent implements OnInit{
   }
   
   loadData(data){
-    var nextData = CITIES.slice((data.page-1)*10, (data.page-1)*10+10);
-    this.allCities = this.allCities.concat(nextData);
-    if(data.page == 4){
+    var filteredCities = CITIES.filter(x => x.name.toLowerCase().indexOf(data.filter) == 0);
+    this.allCities = filteredCities.slice(0, (data.page-1)*10+10);
+
+console.log(this.allCities);
+console.log(filteredCities);
+
+    if(this.allCities.length == filteredCities.length){
       this.hasMoreOptions = false;
+      console.log(this.hasMoreOptions);
     }
   }
   
   showCity(data){
     this.selectedOption = data;
-    console.log(this.selectedOption);
   }
 }
