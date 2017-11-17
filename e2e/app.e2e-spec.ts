@@ -17,6 +17,7 @@ describe('select-example App', () => {
             .then(() => { expect(page.getCurrentOptionIndex()).toEqual(5) })
             .then(() => { expect(page.getSelectOptionsCount()).toEqual(10) })
             .then(() => page.scrollDown(3))
+            .then(() => { expect(page.getCurrentOptionIndex()).toEqual(8) })
             .then(() => { expect(page.getSelectOptionsCount()).toEqual(20) });
     })
     
@@ -40,6 +41,27 @@ describe('select-example App', () => {
             .then(() => { expect(page.getFirstOption()).toContain("bu") })
             .then(() => page.performSearch("sa"))
             .then(() => { expect(page.getSelectOptionsCount()).toEqual(2) })
-            .then(() => { expect(page.getFirstOption()).toContain("sa") });;
+            .then(() => { expect(page.getFirstOption()).toContain("sa") });
+    })
+    
+    it("should show correct results of selection", () => {
+        page.navigateTo()
+            .then(() => page.getSelectElement().click())
+            .then(() => page.performSearch("bu"))
+            .then(() => page.scrollDown(1))
+            .then(() => page.getSelectInput().sendKeys(Key.ENTER))
+            .then(() => { expect(page.getCityResult()).toEqual("Budapest") })
+            .then(() => { expect(page.getCountryResult()).toEqual("Hungary") })
+            .then(() => { expect(page.getPopulationResult()).toEqual("1,759,407") })
+            .then(() => { expect(page.getResultText()).toEqual("Budapest") });
+    })
+    
+    it("should reset selected index after each seach input", () => {
+        page.navigateTo()
+            .then(() => page.getSelectElement().click())
+            .then(() => page.scrollDown(3))
+            .then(() => { expect(page.getCurrentOptionIndex()).toEqual(3) })
+            .then(() => page.performSearch("bu"))
+            .then(() => { expect(page.getCurrentOptionIndex()).toEqual(0) });
     })
 });

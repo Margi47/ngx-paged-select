@@ -40,6 +40,10 @@ export class AppPage {
       }).then(() => {return i;}) 
   }
   
+  getResultText(){
+    return this.getSelectElement().element(by.id("dropdownMenuButton")).getText();
+  }
+  
   getCityResult(){
     return element(by.id('city')).getText();
   }
