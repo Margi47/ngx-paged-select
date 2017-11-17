@@ -14,7 +14,7 @@ export class AppPage {
   }
   
   getSelectOptions(){
-    return this.getSelectElement().all(by.css('dropdown-item'));
+    return this.getSelectElement().all(by.css('.dropdown-item'));
   }
   
   getSelectOptionsCount(){
@@ -22,7 +22,22 @@ export class AppPage {
   }
   
   getFirstOption(){
-    return this.getSelectOptions().get(0).getText();
+    return this.getSelectOptions().get(0).getText().then(x => x.toLowerCase());
+  }
+  
+   getCurrentOptionIndex(){ 
+     var i;
+     var e = element(by.css(".active")).getText();  
+     
+     return this.getSelectOptions().each((el, index) =>{
+      var option = el.getText();       
+      promise.all([option,e]).then((values) => {
+            if(values[0] == values[1]){ 
+              i = index;
+              return;
+            }        
+        })       
+      }).then(() => {return i;}) 
   }
   
   getCityResult(){
@@ -38,19 +53,19 @@ export class AppPage {
   }
   
   scrollDown(count: number){
-    return function(){
-                for (var index = 0; index < count; index++) {
+    for (var index = 0; index < count; index++) {
                   this.getSelectInput().sendKeys(Key.ARROW_DOWN);                 
                 }
-            };
   }
   
   scrollPageDown(count: number){
-    return function(){
-                for (var index = 0; index < count; index++) {
+    for (var index = 0; index < count; index++) {
                   this.getSelectInput().sendKeys(Key.PAGE_DOWN);                 
                 }
-            };
+  }
+  
+  performSearch(key: string){
+    return this.getSelectInput().clear().then(() => this.getSelectInput().sendKeys(key));      
   }
   
 }
