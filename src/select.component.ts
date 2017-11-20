@@ -7,7 +7,23 @@ import { Observable, Subject } from 'rxjs/Rx';
   styleUrls: ['./select.component.css']
 })
 export class SelectComponent implements OnInit {
-    @Input() options: any[];
+    //@Input() options: any[];
+    _options: any[];
+
+    @Input()
+    set options(value: any[]) {
+        this._options = value;
+        if(this.scroll.nativeElement.children.length > 0){
+            
+        let elements = this.scroll.nativeElement.children;
+        console.log(elements[this.optionIndex]);
+        this.renderer.setElementClass(elements[this.optionIndex], 'active', true);
+        }
+    }
+    get options(): any[] {
+        return this._options;
+    }
+    
     @Input() hasMoreOptions: boolean;
     @Input() key: string;
     @Input() placeholder: string = "Select";
@@ -36,9 +52,12 @@ export class SelectComponent implements OnInit {
         const observable = this.search
             .debounceTime(400)
             .distinctUntilChanged()
-            .subscribe((data) => {     
-                this.loadData.emit({ page: 1, filter: data });          
-            });
+            .subscribe((data) => {  
+                let elements = this.scroll.nativeElement.children;
+                this.renderer.setElementClass(elements[this.optionIndex], 'active', false);
+                this.optionIndex = 0;
+                this.loadData.emit({ page: 1, filter: data });   
+            });     
     }
 
     ngOnInit() {
@@ -97,8 +116,10 @@ export class SelectComponent implements OnInit {
                 //checks if current element is not the last one
                 if ((this.optionIndex + 1) < this.options.length) {
                     this.optionIndex++;
-                    this.onScrollDown();
-
+                    //checks the position of current element and decides whether next page is needed(2 items till the ned of list)
+                    if (this.hasMoreOptions && this.optionIndex >= this.options.length - 2) { 
+                        this.onScrollDown();
+                    }
                     let curElement = elements[this.optionIndex].getBoundingClientRect();
 
                     if (curElement.bottom > this.bottomPosition) {
@@ -127,20 +148,23 @@ export class SelectComponent implements OnInit {
             case "PageDown": {
                 //checks if current element is not the last one
                 if ((this.optionIndex + 1) < this.options.length) {
-                    //decides whether new element will not be in range of current list or if this is not the last page
-                    if (this.hasMoreOptions || (this.optionIndex + this.showNum < this.options.length)) {
-                        //adjusting 0 index to pages
-                        if(this.optionIndex == 0){
-                            this.optionIndex += this.showNum -1;
-                        }
-                        else{
-                            this.optionIndex += this.showNum;
-                        }
-                        console.log(this.optionIndex);
-                        this.onScrollDown();                     
+                    //checks if this is a first element(to adjust index to numbers) -> setting new index
+                    if(this.optionIndex == 0){
+                        this.optionIndex += this.showNum -1;
                     }
-                    else {
-                        this.optionIndex = this.options.length - 1;
+                    else{
+                        this.optionIndex += this.showNum;
+                    }
+                    //checks if a new page is needed
+                    if(this.optionIndex >= this.options.length - 2){                                       
+                        //checks if this is not the last page 
+                        if (this.hasMoreOptions) {
+                            this.onScrollDown();              
+                        }
+                        //last page and last elemant
+                        else {
+                            this.optionIndex = this.options.length - 1;
+                        }
                     }
 
                     elements[this.optionIndex].scrollIntoView(false);
@@ -169,12 +193,11 @@ export class SelectComponent implements OnInit {
     }
 
     onScrollDown() {
-        //checks the position of current element and decides whether next page is needed(2 items till the ned of list)
-        if (this.hasMoreOptions && this.optionIndex >= this.options.length - 2) {   
-           this.page++;
-           this.loadData.emit({ page: this.page, filter: this.filter });        
-        }
+       this.page ++;           
+       this.loadData.emit({ page: this.page, filter: this.filter });       
     }
+    
+    
 
     onOptionSelect(option: any) {
         this.optionSelected.emit(option);
