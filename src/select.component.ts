@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Renderer } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewChecked, ViewChild, Renderer} from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 
 @Component({
@@ -6,24 +6,8 @@ import { Observable, Subject } from 'rxjs/Rx';
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.css']
 })
-export class SelectComponent implements OnInit {
-    //@Input() options: any[];
-    _options: any[];
-
-    @Input()
-    set options(value: any[]) {
-        this._options = value;
-        if(this.scroll.nativeElement.children.length > 0){
-            
-        let elements = this.scroll.nativeElement.children;
-        console.log(elements[this.optionIndex]);
-        this.renderer.setElementClass(elements[this.optionIndex], 'active', true);
-        }
-    }
-    get options(): any[] {
-        return this._options;
-    }
-    
+export class SelectComponent implements OnInit, AfterViewChecked{
+    @Input() options: any[];
     @Input() hasMoreOptions: boolean;
     @Input() key: string;
     @Input() placeholder: string = "Select";
@@ -56,14 +40,22 @@ export class SelectComponent implements OnInit {
                 let elements = this.scroll.nativeElement.children;
                 this.renderer.setElementClass(elements[this.optionIndex], 'active', false);
                 this.optionIndex = 0;
-                this.loadData.emit({ page: 1, filter: data });   
-            });     
+                this.page = 1;
+                this.loadData.emit({ page: this.page, filter: data });            
+            });             
+    }
+    
+    ngAfterViewChecked(){        
+        if(this.optionIndex == 0){                  
+            let elements = this.scroll.nativeElement.children;
+            this.renderer.setElementClass(elements[this.optionIndex], 'active', true);
+        }
     }
 
     ngOnInit() {
         if (!this.showNum) {
             this.showNum = this.options.length;
-        }
+        }                       
     }
 
     onClickSelect() {

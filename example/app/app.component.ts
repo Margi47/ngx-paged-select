@@ -22,7 +22,6 @@ export class AppComponent implements OnInit{
 
     if(this.allCities.length == filteredCities.length){
       this.hasMoreOptions = false;
-      console.log(this.hasMoreOptions);
     }
   }
   
