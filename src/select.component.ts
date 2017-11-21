@@ -109,7 +109,7 @@ export class SelectComponent implements OnInit, AfterViewChecked{
                 if ((this.optionIndex + 1) < this.options.length) {
                     this.optionIndex++;
                     //checks the position of current element and decides whether next page is needed(2 items till the ned of list)
-                    if (this.hasMoreOptions && this.optionIndex >= this.options.length - 2) { 
+                    if (this.hasMoreOptions && this.optionIndex >= this.options.length - 1) { 
                         this.onScrollDown();
                     }
                     let curElement = elements[this.optionIndex].getBoundingClientRect();
@@ -148,7 +148,7 @@ export class SelectComponent implements OnInit, AfterViewChecked{
                         this.optionIndex += this.showNum;
                     }
                     //checks if a new page is needed
-                    if(this.optionIndex >= this.options.length - 2){                                       
+                    if(this.optionIndex >= this.options.length - 1){                                       
                         //checks if this is not the last page 
                         if (this.hasMoreOptions) {
                             this.onScrollDown();              

@@ -15,7 +15,7 @@
          class="scroll-container"
          infinite-scroll
          [scrollWindow]="false"
-         [infiniteScrollDistance]="2"
+         [infiniteScrollDistance]="1"
          [infiniteScrollThrottle]="100"
          (scrolled)="onScrollDown($event)">
       <span #dropdownItemEl class="dropdown-item" *ngFor="let option of options"

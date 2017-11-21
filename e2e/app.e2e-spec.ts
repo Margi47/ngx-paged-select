@@ -16,8 +16,8 @@ describe('select-example App', () => {
             .then(() => page.scrollDown(5))
             .then(() => { expect(page.getCurrentOptionIndex()).toEqual(5) })
             .then(() => { expect(page.getSelectOptionsCount()).toEqual(10) })
-            .then(() => page.scrollDown(3))
-            .then(() => { expect(page.getCurrentOptionIndex()).toEqual(8) })
+            .then(() => page.scrollDown(4))
+            .then(() => { expect(page.getCurrentOptionIndex()).toEqual(9) })
             .then(() => { expect(page.getSelectOptionsCount()).toEqual(20) });
     })
     
