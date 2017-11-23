@@ -9,7 +9,7 @@ $ npm install ngx-paged-select --save
 
 ## Prerequisites
 
-You will need [ngx-infinite-scroll](https://pages.github.com/)
+You will need [ngx-infinite-scroll](https://github.com/orizens/ngx-infinite-scroll)
 
 ```
 npm install ngx-infinite-scroll --save
