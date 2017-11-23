@@ -213,13 +213,11 @@ export class SelectComponent implements OnInit, AfterViewChecked{
     
 
     onOptionSelect(option: any) {
-        let optionName = this.getOptionLabel(option);
-        
-        if(!this.multiple){                  
-            this.optionSelected.emit(option);
+        if(!this.multiple){                                       
             this.resultOptions = [];
-            this.resultOptions.push(optionName);
+            this.resultOptions.push(option); 
             this.onClickSelect();
+            this.optionSelected.emit(option);
         }
         else{
             if(this.resultOptions.indexOf(option) == -1 ){
@@ -227,9 +225,20 @@ export class SelectComponent implements OnInit, AfterViewChecked{
             }
             else{
                 this.resultOptions = this.resultOptions.filter(x => x != option);
-            } 
-            this.optionSelected.emit(this.resultOptions);   
-            this.searchInput.nativeElement.focus();      
+            }               
+            this.searchInput.nativeElement.focus();     
+            this.optionSelected.emit(this.resultOptions); 
+        }      
+    }
+    
+    deleteResult(option:any){
+        if(this.multiple){
+            this.resultOptions = this.resultOptions.filter(x => x != option);
+            this.optionSelected.emit(this.resultOptions);
+        }
+        else{
+            this.resultOptions = [];
+            this.optionSelected.emit(null);
         }
     }
 

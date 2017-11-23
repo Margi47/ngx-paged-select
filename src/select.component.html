@@ -3,9 +3,9 @@
     <span #mainButton  class="form-control"
           id="dropdownMenuButton" aria-expanded="false">
           <div [hidden]="resultOptions.length>0">{{placeholder}}</div>
-          <div *ngFor="let opt of resultOptions">
-            <button>X</button>
-            {{getOptionLabel(opt)}}
+          <div *ngFor="let result of resultOptions">
+            <button (click)="deleteResult(result)">X</button>
+            {{getOptionLabel(result)}}
             </div>
           </span>
     <span class="dropdown-toggle input-group-addon"></span>  
