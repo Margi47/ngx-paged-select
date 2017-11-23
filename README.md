@@ -1,27 +1,68 @@
-# SelectExample
+# ngx-paged-select
+A simple select component for Angular 4 with scrolling and paging features.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.7.
+## Installing
+To install this library, run:
+```
+$ npm install ngx-paged-select --save
+```
 
-## Development server
+## Prerequisites
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+You will need [ngx-infinite-scroll](https://pages.github.com/)
 
-## Code scaffolding
+```
+npm install ngx-infinite-scroll --save
+```
+and [Bootstrap](https://getbootstrap.com/) styles
+```
+<!--- index.html -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Usage
 
-## Build
+Import select to you aplication module
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+```
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core'; 
+import { AppComponent } from './app.component';
+ 
+import { SelectModule } from 'ngx-paged-select';
+ 
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule,SelectModule],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+Add component to your template
 
-## Running unit tests
+```
+<ngx-paged-select [options]="options$"
+                  [hasMoreOptions]="hasMoreOptions"
+                  [key]="'name'"
+                  [placeholder]="'Select Me'"
+                  [showNum]="5"
+                  (loadData)="loadNextPage($event)"
+                  (optionSelected)="onSelect($event)"></ngx-paged-select>
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Supported API
 
-## Running end-to-end tests
+###Properties
+- options: array - Array of options to select from. If an array consists of complex objects, key property is needed.
+- hasMoreOptions: boolean - Set to true, if current page is not the last one.
+- key: string - (optional in case of simple types) - Indicates a property of a complex object, that needs to be displayed.
+- placeholder: string - (default: "Select") - Text to display, when no element chosen.
+- showNum: number - (default: length of first page) - Number of options visible in select window.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+###Events
+- loadData - Fires when new page needed or search input occured. Returns object with **page:number** and **filter:string** properties.
+- optionSelected - Fires when option has been selected. Returns the entire option object.
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Running the tests
+Download the repository and run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
