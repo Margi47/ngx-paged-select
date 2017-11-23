@@ -208,9 +208,7 @@ export class SelectComponent implements OnInit, AfterViewChecked{
     onScrollDown() {
        this.page ++;           
        this.loadData.emit({ page: this.page, filter: this.filter });       
-    }
-    
-    
+    }     
 
     onOptionSelect(option: any) {
         if(!this.multiple){                                       
