@@ -66,3 +66,7 @@ Add component to your template
 
 ## Running the tests
 Download the repository and run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
