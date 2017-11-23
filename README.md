@@ -53,14 +53,14 @@ Add component to your template
 
 ## Supported API
 
-###Properties
+######Properties
 - options: array - Array of options to select from. If an array consists of complex objects, key property is needed.
 - hasMoreOptions: boolean - Set to true, if current page is not the last one.
 - key: string - (optional in case of simple types) - Indicates a property of a complex object, that needs to be displayed.
 - placeholder: string - (default: "Select") - Text to display, when no element chosen.
 - showNum: number - (default: length of first page) - Number of options visible in select window.
 
-###Events
+######Events
 - loadData - Fires when new page needed or search input occured. Returns object with **page:number** and **filter:string** properties.
 - optionSelected - Fires when option has been selected. Returns the entire option object.
 
