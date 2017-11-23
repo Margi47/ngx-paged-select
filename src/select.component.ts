@@ -12,7 +12,25 @@ export class SelectComponent implements OnInit, AfterViewChecked{
     @Input() key: string;
     @Input() placeholder: string = "Select";
     @Input() showNum: number;
-    @Input() multiple: boolean = false;
+    
+    _multiple: boolean;
+    @Input() set multiple(value){
+        this.resultOptions = [];
+        this.placeholder = "Select";
+        if(value != null){
+            this._multiple = value;           
+        }
+        else{
+            this._multiple = false;
+        }
+        
+        if(this.selectOpened){
+            this.onClickSelect();
+        }
+    }
+    get multiple(){
+        return this._multiple;
+    }
     @Output() loadData = new EventEmitter<any>();
     @Output() optionSelected = new EventEmitter<any>();
 
@@ -32,7 +50,7 @@ export class SelectComponent implements OnInit, AfterViewChecked{
     filter: string = "";
     selectOpened: boolean = false;
     optionIndex: number = 0;
-    multipleOptions: any[] = [];
+    resultOptions: any[] = [];
 
     constructor(private renderer: Renderer) {
         const observable = this.search
@@ -46,7 +64,7 @@ export class SelectComponent implements OnInit, AfterViewChecked{
                 this.loadData.emit({ page: this.page, filter: data });            
             });             
     }
-    
+    //temporary solution
     ngAfterViewChecked(){        
         if(this.optionIndex == 0){                  
             let elements = this.scroll.nativeElement.children;
@@ -196,37 +214,21 @@ export class SelectComponent implements OnInit, AfterViewChecked{
 
     onOptionSelect(option: any) {
         let optionName = this.getOptionLabel(option);
+        
         if(!this.multiple){                  
             this.optionSelected.emit(option);
-            this.placeholder = optionName;
+            this.resultOptions = [];
+            this.resultOptions.push(optionName);
             this.onClickSelect();
         }
         else{
-            if(this.multipleOptions.indexOf(option) == -1 ){
-                this.multipleOptions.push(option);
-                if(this.placeholder == "Select"){
-                    this.placeholder = optionName;
-                }
-                else{
-                    this.placeholder += ", " + optionName;
-                }                
+            if(this.resultOptions.indexOf(option) == -1 ){
+                this.resultOptions.push(option);               
             }
             else{
-                this.multipleOptions = this.multipleOptions.filter(x => x != option);
-                let beg = this.placeholder.indexOf(optionName);
-                let end = beg + optionName.length;
-                this.placeholder = this.placeholder.substring(0, beg).concat(this.placeholder.substring(end +2));
-                
-                if(this.placeholder.charAt(this.placeholder.length - 2) == ",")
-                {
-                    this.placeholder = this.placeholder.substring(0, this.placeholder.length - 2);
-                }
-                
-                if(this.placeholder == ""){
-                    this.placeholder = "Select";
-                }   
+                this.resultOptions = this.resultOptions.filter(x => x != option);
             } 
-            this.optionSelected.emit(this.multipleOptions);   
+            this.optionSelected.emit(this.resultOptions);   
             this.searchInput.nativeElement.focus();      
         }
     }

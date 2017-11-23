@@ -1,7 +1,13 @@
 <div #dropdownEl class="dropdown paged-select">
   <div class="input-group" (click)="onClickSelect()">
     <span #mainButton  class="form-control"
-          id="dropdownMenuButton" aria-expanded="false">{{placeholder}}</span>
+          id="dropdownMenuButton" aria-expanded="false">
+          <div [hidden]="resultOptions.length>0">{{placeholder}}</div>
+          <div *ngFor="let opt of resultOptions">
+            <button>X</button>
+            {{getOptionLabel(opt)}}
+            </div>
+          </span>
     <span class="dropdown-toggle input-group-addon"></span>  
   </div>
 
@@ -21,7 +27,7 @@
       <span #dropdownItemEl class="dropdown-item" *ngFor="let option of options"           
             (click)="onOptionSelect(option)"
             (mouseenter)="onMouseOver(option)" >
-          <input type="checkbox" *ngIf="multiple" [checked]="placeholder.indexOf(getOptionLabel(option)) != -1"/>  
+          <input type="checkbox" *ngIf="multiple" [checked]="resultOptions.indexOf(option) != -1"/>  
           <span [innerText]="getOptionLabel(option)"></span>
       </span>
     </div>
