@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewChecked, ViewChild, Renderer} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, AfterViewChecked, ViewChild, Renderer} from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 
 @Component({
@@ -12,6 +12,7 @@ export class SelectComponent implements OnInit, AfterViewChecked{
     @Input() key: string;
     @Input() placeholder: string = "Select";
     @Input() showNum: number;
+    @Input() multiple: boolean = false;
     @Output() loadData = new EventEmitter<any>();
     @Output() optionSelected = new EventEmitter<any>();
 
@@ -31,6 +32,7 @@ export class SelectComponent implements OnInit, AfterViewChecked{
     filter: string = "";
     selectOpened: boolean = false;
     optionIndex: number = 0;
+    multipleOptions: any[] = [];
 
     constructor(private renderer: Renderer) {
         const observable = this.search
@@ -55,8 +57,9 @@ export class SelectComponent implements OnInit, AfterViewChecked{
     ngOnInit() {
         if (!this.showNum) {
             this.showNum = this.options.length;
-        }                       
+        }                    
     }
+
 
     onClickSelect() {
         let elements = this.scroll.nativeElement.children;
@@ -192,9 +195,40 @@ export class SelectComponent implements OnInit, AfterViewChecked{
     
 
     onOptionSelect(option: any) {
-        this.optionSelected.emit(option);
-        this.placeholder = this.getOptionLabel(option);
-        this.onClickSelect();
+        let optionName = this.getOptionLabel(option);
+        if(!this.multiple){                  
+            this.optionSelected.emit(option);
+            this.placeholder = optionName;
+            this.onClickSelect();
+        }
+        else{
+            if(this.multipleOptions.indexOf(option) == -1 ){
+                this.multipleOptions.push(option);
+                if(this.placeholder == "Select"){
+                    this.placeholder = optionName;
+                }
+                else{
+                    this.placeholder += ", " + optionName;
+                }                
+            }
+            else{
+                this.multipleOptions = this.multipleOptions.filter(x => x != option);
+                let beg = this.placeholder.indexOf(optionName);
+                let end = beg + optionName.length;
+                this.placeholder = this.placeholder.substring(0, beg).concat(this.placeholder.substring(end +2));
+                
+                if(this.placeholder.charAt(this.placeholder.length - 2) == ",")
+                {
+                    this.placeholder = this.placeholder.substring(0, this.placeholder.length - 2);
+                }
+                
+                if(this.placeholder == ""){
+                    this.placeholder = "Select";
+                }   
+            } 
+            this.optionSelected.emit(this.multipleOptions);   
+            this.searchInput.nativeElement.focus();      
+        }
     }
 
     getOptionLabel(option: any): string {

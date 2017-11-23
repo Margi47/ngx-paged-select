@@ -1,5 +1,5 @@
 .result-label{
-    padding:0.5rem 0rem 0rem 0rem;
+    padding:0rem 0rem 0rem 0rem;
     margin: 0rem
 }
 #cityGroup, #countryGroup, #populationGroup{
@@ -12,3 +12,4 @@
     width:50%; 
     margin:0 auto
 }
+

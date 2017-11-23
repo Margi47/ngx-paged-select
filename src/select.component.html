@@ -18,10 +18,12 @@
          [infiniteScrollDistance]="1"
          [infiniteScrollThrottle]="100"
          (scrolled)="onScrollDown($event)">
-      <span #dropdownItemEl class="dropdown-item" *ngFor="let option of options"
-            [innerText]="getOptionLabel(option)"
+      <span #dropdownItemEl class="dropdown-item" *ngFor="let option of options"           
             (click)="onOptionSelect(option)"
-            (mouseenter)="onMouseOver(option)" ></span>
+            (mouseenter)="onMouseOver(option)" >
+          <input type="checkbox" *ngIf="multiple" [checked]="placeholder.indexOf(getOptionLabel(option)) != -1"/>  
+          <span [innerText]="getOptionLabel(option)"></span>
+      </span>
     </div>
   </div>
   </div>
