@@ -9,7 +9,7 @@ $ npm install ngx-paged-select --save
 
 ## Prerequisites
 
-You will need [ngx-infinite-scroll](https://pages.github.com/)
+You will need [ngx-infinite-scroll](https://github.com/orizens/ngx-infinite-scroll)
 
 ```
 npm install ngx-infinite-scroll --save
@@ -47,22 +47,24 @@ Add component to your template
                   [key]="'name'"
                   [placeholder]="'Select Me'"
                   [showNum]="5"
+                  [multiple]="true"
                   (loadData)="loadNextPage($event)"
                   (optionSelected)="onSelect($event)"></ngx-paged-select>
 ```
 
 ## Supported API
 
-######Properties
+###Properties
 - options: array - Array of options to select from. If an array consists of complex objects, key property is needed.
 - hasMoreOptions: boolean - Set to true, if current page is not the last one.
 - key: string - (optional in case of simple types) - Indicates a property of a complex object, that needs to be displayed.
 - placeholder: string - (default: "Select") - Text to display, when no element chosen.
 - showNum: number - (default: length of first page) - Number of options visible in select window.
+- multiple: boolean - (default: false) - Allows to select multiple options.
 
-######Events
+###Events
 - loadData - Fires when new page needed or search input occured. Returns object with **page:number** and **filter:string** properties.
-- optionSelected - Fires when option has been selected. Returns the entire option object.
+- optionSelected - Fires when option has been selected. Returns the entire option object or an array of option objects in case of *multiple* attribute set to true.
 
 ## Running the tests
 Download the repository and run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).

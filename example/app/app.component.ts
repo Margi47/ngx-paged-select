@@ -9,11 +9,14 @@ import {City} from './city';
 })
 export class AppComponent implements OnInit{
   allCities: City[];
-  hasMoreOptions = true;
-  selectedOption: City;
+  hasMoreOptions: boolean;
+  selectedOptions: any;
+  multiple: boolean;
   
   ngOnInit(){
     this.allCities = CITIES.slice(0, 10);
+    this.hasMoreOptions = true;
+    this.multiple = false;
   }
   
   loadData(data){
@@ -25,7 +28,12 @@ export class AppComponent implements OnInit{
     }
   }
   
-  showCity(data){
-    this.selectedOption = data;
+  showCity(data){       
+      this.selectedOptions = data;
+  }
+  
+  toggleMultiple(){
+      this.multiple = !this.multiple;
+      this.selectedOptions = null;
   }
 }

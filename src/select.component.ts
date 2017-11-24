@@ -12,6 +12,25 @@ export class SelectComponent implements OnInit{
     @Input() key: string;
     @Input() placeholder: string = "Select";
     @Input() showNum: number;
+    
+    _multiple: boolean;
+    @Input() set multiple(value){
+        this.resultOptions = [];
+        this.placeholder = "Select";
+        if(value != null){
+            this._multiple = value;           
+        }
+        else{
+            this._multiple = false;
+        }
+        
+        if(this.selectOpened){
+            this.onClickSelect();
+        }
+    }
+    get multiple(){
+        return this._multiple;
+    }
     @Output() loadData = new EventEmitter<any>();
     @Output() optionSelected = new EventEmitter<any>();
 
@@ -29,6 +48,7 @@ export class SelectComponent implements OnInit{
     selectOpened: boolean = false;
     optionIndex: number = 0;
     height: number;
+    resultOptions: any[] = [];
 
     constructor() {
         const observable = this.search
@@ -44,7 +64,7 @@ export class SelectComponent implements OnInit{
     ngOnInit() {
         if (!this.showNum) {
             this.showNum = this.options.length;
-        }                       
+        }                    
     }
 
     onClickSelect() {
@@ -154,13 +174,37 @@ export class SelectComponent implements OnInit{
 
     onScrollDown() {
        this.page ++;           
-       this.loadData.emit({ page: this.page, filter: this.filter });       
+       this.loadData.emit({ page: this.page, filter: this.filter });     
+    }
+      
+    onOptionSelect(option: any) {
+        if(!this.multiple){                                       
+            this.resultOptions = [];
+            this.resultOptions.push(option); 
+            this.onClickSelect();
+            this.optionSelected.emit(option);
+        }
+        else{
+            if(this.resultOptions.indexOf(option) == -1 ){
+                this.resultOptions.push(option);               
+            }
+            else{
+                this.resultOptions = this.resultOptions.filter(x => x != option);
+            }               
+            this.searchInput.nativeElement.focus();     
+            this.optionSelected.emit(this.resultOptions); 
+        }      
     }
     
-    onOptionSelect(option: any) {
-        this.optionSelected.emit(option);
-        this.placeholder = this.getOptionLabel(option);
-        this.onClickSelect();
+    deleteResult(option:any){
+        if(this.multiple){
+            this.resultOptions = this.resultOptions.filter(x => x != option);
+            this.optionSelected.emit(this.resultOptions);
+        }
+        else{
+            this.resultOptions = [];
+            this.optionSelected.emit(null);
+        }
     }
 
     getOptionLabel(option: any): string {
