@@ -1,21 +1,21 @@
-.paged-select > .dropdown-menu {
+.paged-select-dropdown-menu {
   width: 100%;
 }
-.paged-select > .dropdown-menu > .search-container {
+.paged-select-search {
     border-bottom: 1px solid rgba(0,0,0,.15);
     padding: 0rem 0.5rem 0.5rem 0.5rem;
 }
-.paged-select > .dropdown-menu > .scroll-container {
+.paged-select-scroll {
   overflow-y: scroll;
 }
 
-.delete-result-btn{
+.paged-select-delete-result-btn{
   padding: 0.1rem 0.2rem;
   line-height: 0.5rem;
   font-size: 0.5rem; 
   margin: 0.1rem 0.1rem 0.2rem 0.1rem;
 }
 
-.result-label{
+  .paged-select-result-label{
   padding:0rem 0.5rem 0rem 0.2rem;
 }
