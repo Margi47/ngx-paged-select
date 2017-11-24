@@ -47,6 +47,7 @@ Add component to your template
                   [key]="'name'"
                   [placeholder]="'Select Me'"
                   [showNum]="5"
+                  [multiple]="true"
                   (loadData)="loadNextPage($event)"
                   (optionSelected)="onSelect($event)"></ngx-paged-select>
 ```
@@ -59,10 +60,11 @@ Add component to your template
 - key: string - (optional in case of simple types) - Indicates a property of a complex object, that needs to be displayed.
 - placeholder: string - (default: "Select") - Text to display, when no element chosen.
 - showNum: number - (default: length of first page) - Number of options visible in select window.
+- multiple: boolean - (default: false) - Allows to select multiple options.
 
 ###Events
 - loadData - Fires when new page needed or search input occured. Returns object with **page:number** and **filter:string** properties.
-- optionSelected - Fires when option has been selected. Returns the entire option object.
+- optionSelected - Fires when option has been selected. Returns the entire option object or an array of option objects in case of *multiple* attribute set to true.
 
 ## Running the tests
 Download the repository and run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).

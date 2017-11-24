@@ -25,7 +25,7 @@ export class AppPage {
     return this.getSelectOptions().get(0).getText().then(x => x.toLowerCase());
   }
   
-   getCurrentOptionIndex(){ 
+  getCurrentOptionIndex(){ 
      var i;
      var e = element(by.css(".active")).getText();  
      
@@ -40,8 +40,20 @@ export class AppPage {
       }).then(() => {return i;}) 
   }
   
-  getResultText(){
-    return this.getSelectElement().element(by.id("dropdownMenuButton")).getText();
+  getSelectResults(){
+    return this.getSelectElement().element(by.id("dropdownMenuButton")).all(by.css('.selectResultBox'));
+  }
+  
+  getSelectResultsCount(){
+    return this.getSelectResults().count();
+  }
+  
+  getSelectResultText(index: number){
+    return this.getSelectResults().get(index).element(by.css('.result-label')).getText();
+  }
+  
+  deleteSelectResult(index: number){
+    return this.getSelectResults().get(index).element(by.tagName('button')).click();
   }
   
   getCityResult(){
@@ -70,6 +82,24 @@ export class AppPage {
   
   performSearch(key: string){
     return this.getSelectInput().clear().then(() => this.getSelectInput().sendKeys(key));      
+  }
+  
+  clearSearch(num:number){
+  for (var index = 0; index < num; index++) {
+        this.getSelectInput().sendKeys(Key.BACK_SPACE);      
+      }  
+  }
+  
+  clickMultipleCheckbox(){
+    return element(by.id('multipleCheckbox')).click();
+  }
+  
+  getTableRows(){
+    return element(by.tagName('table')).element(by.tagName('tbody')).all(by.tagName('tr'));
+  }
+  
+  getTableRowsCount(){
+    return this.getTableRows().count();
   }
   
 }
