@@ -3,12 +3,10 @@
     <span #mainButton  class="form-control"
           id="dropdownMenuButton" aria-expanded="false">
         <div [hidden]="resultOptions.length>0">{{placeholder}}</div>
-        <div *ngFor="let result of resultOptions">
-            <div>
+        <div *ngFor="let result of resultOptions" class="selectResultBox">
                 <button
                 class="btn btn-outline-primary btn-sm delete-result-btn" type="button" (click)="deleteResult(result); $event.stopPropagation()">x</button>
                 <span class="result-label">{{getOptionLabel(result)}}</span>
-            </div>
         </div>
     </span>
     <span class="dropdown-toggle input-group-addon"></span>  
@@ -18,7 +16,7 @@
        class="dropdown-menu">
     <div class="search-container">
       <input #searchInputEl type="search" autofocus class="form-control ds-input" placeholder="Search..."
-             (input)="search.next(searchInputEl.value)" (keydown)="onKeyDown($event)">
+             (input)="search.next(searchInputEl.value)" (keydown)="onKeyDown($event)" value="{{filter}}">
     </div>
     <div #scrollEl
          class="scroll-container"

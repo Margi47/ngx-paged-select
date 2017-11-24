@@ -1,6 +1,6 @@
 <div id="example">
     <div style="margin:0.5rem 0rem" class="form-control col-2" (click)="toggleMultiple()">  
-        <input type="checkbox" [checked]="multiple"  style="margin-right:0.3rem"/>Multiple
+        <input id="multipleCheckbox" type="checkbox" [checked]="multiple"  style="margin-right:0.3rem"/>Multiple
     </div>
     <div *ngIf="!multiple">
         <div class="form-group row" id="cityGroup">
