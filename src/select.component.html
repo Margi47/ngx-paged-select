@@ -28,7 +28,6 @@
          [style.height.px]="height">
       <span class="dropdown-item" *ngFor="let option of options"
             [ngClass]="{'active': optionIndex == options.indexOf(option)}"
-            [innerText]="getOptionLabel(option)"
             (click)="onOptionSelect(option)"
             (mouseenter)="onMouseOver(option)" >
           <input type="checkbox" *ngIf="multiple" [checked]="resultOptions.indexOf(option) != -1"/>  
