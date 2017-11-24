@@ -6,7 +6,7 @@
         <div *ngFor="let result of resultOptions">
             <div>
                 <button
-                class="btn btn-outline-primary btn-sm delete-result-btn" type="button" (click)="deleteResult(result)">x</button>
+                class="btn btn-outline-primary btn-sm delete-result-btn" type="button" (click)="deleteResult(result); $event.stopPropagation()">x</button>
                 <span class="result-label">{{getOptionLabel(result)}}</span>
             </div>
         </div>
