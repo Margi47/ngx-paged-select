@@ -7,7 +7,19 @@ import { Observable, Subject } from 'rxjs/Rx';
   styleUrls: ['./select.component.css']
 })
 export class SelectComponent implements OnInit{
-    @Input() options: any[];
+    _options: any[];
+    @Input() set options(value){
+        this._options = value;
+        if(value.length < this.showNum){
+            this.height = this.rowHeight * value.length;
+        }
+        else{
+            this.height = this.rowHeight * this.showNum;
+        }
+    }
+    get options(){
+        return this._options;
+    }
     @Input() hasMoreOptions: boolean;
     @Input() key: string;
     @Input() placeholder: string = "Select";
@@ -16,7 +28,6 @@ export class SelectComponent implements OnInit{
     _multiple: boolean;
     @Input() set multiple(value){
         this.resultOptions = [];
-        this.placeholder = "Select";
         if(value != null){
             this._multiple = value;           
         }
@@ -73,7 +84,12 @@ export class SelectComponent implements OnInit{
             this.selectOpened = true;
             setTimeout(()=>{ 
                 this.rowHeight = elements[0].getBoundingClientRect().height;
-                this.height = this.rowHeight * this.showNum;
+                if(this.options.length < this.showNum){
+                    this.height = this.rowHeight * this.options.length;
+                }
+                else{
+                    this.height = this.rowHeight * this.showNum;
+                }
                 setTimeout(() => {
                     let rect = this.scroll.nativeElement.getBoundingClientRect();
                     this.topPosition = rect.top;
