@@ -41,7 +41,7 @@ export class AppPage {
   }
   
   getSelectResults(){
-    return this.getSelectElement().element(by.id("dropdownMenuButton")).all(by.css('.selectResultBox'));
+    return this.getSelectElement().all(by.css(".paged-select-result-label"));
   }
   
   getSelectResultsCount(){
@@ -49,11 +49,11 @@ export class AppPage {
   }
   
   getSelectResultText(index: number){
-    return this.getSelectResults().get(index).element(by.css('.result-label')).getText();
+    return this.getSelectResults().get(index).getText();
   }
   
   deleteSelectResult(index: number){
-    return this.getSelectResults().get(index).element(by.tagName('button')).click();
+    return element.all(by.css('.paged-select-delete-result-btn')).get(index).click();
   }
   
   getCityResult(){
