@@ -1,11 +1,11 @@
-<div #dropdownEl class="dropdown paged-select">
+<div class="dropdown paged-select" [ngClass]="{'show': selectOpened}">
   <div class="input-group" (click)="onClickSelect()">
     <span #mainButton  class="form-control"
           id="dropdownMenuButton" aria-expanded="false">{{placeholder}}</span>
     <span class="dropdown-toggle input-group-addon"></span>  
   </div>
 
-  <div #dropdownMenuEl
+  <div [ngClass]="{'show': selectOpened}"
        class="dropdown-menu">
     <div class="search-container">
       <input #searchInputEl type="search" autofocus class="form-control ds-input" placeholder="Search..."
@@ -17,8 +17,10 @@
          [scrollWindow]="false"
          [infiniteScrollDistance]="1"
          [infiniteScrollThrottle]="100"
-         (scrolled)="onScrollDown($event)">
-      <span #dropdownItemEl class="dropdown-item" *ngFor="let option of options"
+         (scrolled)="onScrollDown($event)"
+         [style.height.px]="height">
+      <span class="dropdown-item" *ngFor="let option of options"
+            [ngClass]="{'active': optionIndex == options.indexOf(option)}"
             [innerText]="getOptionLabel(option)"
             (click)="onOptionSelect(option)"
             (mouseenter)="onMouseOver(option)" ></span>
