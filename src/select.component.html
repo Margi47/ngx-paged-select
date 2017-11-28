@@ -1,6 +1,8 @@
 <div class="dropdown paged-select" [ngClass]="{'show': selectOpened}">
   <div class="input-group" (click)="onClickSelect()">
-    <span #mainButton  class="form-control" aria-expanded="false">
+    <span #mainButton  
+          class="form-control" aria-expanded="false" 
+          [ngClass]="{'focus': !selectOpened}">
         <div [hidden]="resultOptions.length>0">{{placeholder}}</div>
         <div *ngFor="let result of resultOptions">
                 <button class="btn btn-outline-primary btn-sm paged-select-delete-result-btn" 
@@ -17,8 +19,9 @@
       <input #searchInputEl type="search" 
              class="form-control ds-input" 
              placeholder="Search..."
+             [ngClass]="{'focus': selectOpened}"
              (input)="search.next(searchInputEl.value)" 
-             (keydown)="onKeyDown($event)" value="{{filter}}">
+             (keydown)="onKeyDown($event)" ([ngModel])="filter">
     </div>
     <div #scrollEl
          class="paged-select-scroll"

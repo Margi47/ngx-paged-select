@@ -14,7 +14,6 @@ export class AppComponent implements OnInit{
   multiple: boolean;
   
   ngOnInit(){
-    this.allCities = CITIES.slice(0, 10);
     this.hasMoreOptions = true;
     this.multiple = false;
   }

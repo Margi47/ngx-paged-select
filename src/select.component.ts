@@ -9,13 +9,35 @@ import { Observable, Subject } from 'rxjs/Rx';
 export class SelectComponent implements OnInit{
     _options: any[];
     @Input() set options(value){
-        this._options = value;
-        if(value.length < this.showNum){
-            this.height = this.rowHeight * value.length;
-        }
-        else{
-            this.height = this.rowHeight * this.showNum;
-        }
+        if(value != null){
+            this._options = value;
+            
+            if(this.rowHeight == undefined){
+                setTimeout(()=>{ 
+                    this.rowHeight = this.scroll.nativeElement.children[0]
+                                        .getBoundingClientRect().height;
+                    if(this.options.length < this.showNum){
+                        this.height = this.rowHeight * this.options.length;
+                    }
+                    else{
+                        this.height = this.rowHeight * this.showNum;
+                    }
+                    setTimeout(() => {
+                        let rect = this.scroll.nativeElement.getBoundingClientRect();
+                        this.topPosition = rect.top;
+                        this.bottomPosition = rect.bottom;
+                        },0);
+                }, 0);
+            }
+            else{                  
+                if(value.length < this.showNum){
+                    this.height = this.rowHeight * value.length;
+                }
+                else{
+                    this.height = this.rowHeight * this.showNum;
+                }
+            }  
+        }      
     }
     get options(){
         return this._options;
@@ -82,21 +104,7 @@ export class SelectComponent implements OnInit{
         let elements = this.scroll.nativeElement.children;
         if (!this.selectOpened) {
             this.selectOpened = true;
-            setTimeout(()=>{ 
-                this.rowHeight = elements[0].getBoundingClientRect().height;
-                if(this.options.length < this.showNum){
-                    this.height = this.rowHeight * this.options.length;
-                }
-                else{
-                    this.height = this.rowHeight * this.showNum;
-                }
-                setTimeout(() => {
-                    let rect = this.scroll.nativeElement.getBoundingClientRect();
-                    this.topPosition = rect.top;
-                    this.bottomPosition = rect.bottom;
-                    },0);
-                }, 0);
-            this.searchInput.nativeElement.focus();
+            this.loadData.emit({page: 1, filter: ""});
         }
         else {
             this.optionIndex = 0;
@@ -104,7 +112,6 @@ export class SelectComponent implements OnInit{
             this.page = 1;
             this.filter = "";
             this.selectOpened = false;
-            this.mainButton.nativeElement.focus();
         }
     }
 
@@ -199,6 +206,7 @@ export class SelectComponent implements OnInit{
             this.resultOptions.push(option); 
             this.onClickSelect();
             this.optionSelected.emit(option);
+
         }
         else{
             if(this.resultOptions.indexOf(option) == -1 ){
@@ -206,8 +214,7 @@ export class SelectComponent implements OnInit{
             }
             else{
                 this.resultOptions = this.resultOptions.filter(x => x != option);
-            }               
-            this.searchInput.nativeElement.focus();     
+            }                   
             this.optionSelected.emit(this.resultOptions); 
         }      
     }
