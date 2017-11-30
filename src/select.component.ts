@@ -1,10 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Renderer} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Renderer, ElementRef} from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 
 @Component({
   selector: 'ngx-paged-select',
   templateUrl: './select.component.html',
-  styleUrls: ['./select.component.css']
+  styleUrls: ['./select.component.css'],
+    host: {
+    '(document:click)': 'onOutsideClick($event)',
+  },
 })
 export class SelectComponent implements OnInit{
     _options: any[];
@@ -83,7 +86,7 @@ export class SelectComponent implements OnInit{
     height: number;
     resultOptions: any[] = [];
 
-    constructor( private renderer: Renderer) {
+    constructor( private renderer: Renderer, private elementRef: ElementRef) {
         const observable = this.search
             .debounceTime(400)
             .distinctUntilChanged()
@@ -110,6 +113,7 @@ export class SelectComponent implements OnInit{
             }, 0);
         }
         else {
+            this.searchInput.nativeElement.value = "";
             this.selectOpened = false;
             this.page = 1;
             this.filter = "";
@@ -248,4 +252,9 @@ export class SelectComponent implements OnInit{
         }
         return option;
     }
+    
+   onOutsideClick(event) {
+   if (!this.elementRef.nativeElement.contains(event.target) && this.selectOpened)
+     this.onClickSelect();
+  }
 }
