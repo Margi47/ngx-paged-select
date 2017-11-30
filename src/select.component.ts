@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Renderer} from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 
 @Component({
@@ -83,7 +83,7 @@ export class SelectComponent implements OnInit{
     height: number;
     resultOptions: any[] = [];
 
-    constructor() {
+    constructor( private renderer: Renderer) {
         const observable = this.search
             .debounceTime(400)
             .distinctUntilChanged()
@@ -101,22 +101,32 @@ export class SelectComponent implements OnInit{
     }
 
     onClickSelect() {
-        let elements = this.scroll.nativeElement.children;
         if (!this.selectOpened) {
-            this.selectOpened = true;
-            this.loadData.emit({page: 1, filter: ""});
+            this.selectOpened = true;           
+            this.loadData.emit({page: this.page, filter: this.filter});            
+            setTimeout(()=>{ 
+                this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
+                this.searchInput.nativeElement.focus();
+            }, 0);
         }
         else {
-            this.optionIndex = 0;
-            elements[this.optionIndex].scrollIntoView(true);
+            this.selectOpened = false;
             this.page = 1;
             this.filter = "";
-            this.selectOpened = false;
+            this.optionIndex = 0;
+            this.mainButton.nativeElement.focus();
         }
     }
 
     onMouseOver(option) {
         this.optionIndex = this.options.indexOf(option);
+    }
+    
+    onMainKeyDown(value:any){
+        console.log(value);
+        if (value.code == "Space"){            
+            this.onClickSelect();
+        }
     }
 
     onKeyDown(value: any) {
