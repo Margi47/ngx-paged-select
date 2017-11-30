@@ -19,12 +19,14 @@ export class AppComponent implements OnInit{
   }
   
   loadData(data){
-    var filteredCities = CITIES.filter(x => x.name.toLowerCase().indexOf(data.filter) == 0);
-    this.allCities = filteredCities.slice(0, (data.page-1)*10+10);
+    setTimeout(() => {
+      var filteredCities = CITIES.filter(x => x.name.toLowerCase().indexOf(data.filter) == 0);
+      this.allCities = filteredCities.slice(0, (data.page-1)*10+10);
 
-    if(this.allCities.length == filteredCities.length){
-      this.hasMoreOptions = false;
-    }
+      if(this.allCities.length == filteredCities.length){
+        this.hasMoreOptions = false;
+      }
+    }, 3000);
   }
   
   showCity(data){       

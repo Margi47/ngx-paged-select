@@ -13,8 +13,8 @@ export class SelectComponent implements OnInit{
     _options: any[];
     @Input() set options(value){
         if(value != null){
-            this._options = value;
-            
+            this.loading = false;
+            this._options = value;            
             if(this.rowHeight == undefined){
                 setTimeout(()=>{ 
                     this.rowHeight = this.scroll.nativeElement.children[0]
@@ -39,7 +39,7 @@ export class SelectComponent implements OnInit{
                 else{
                     this.height = this.rowHeight * this.showNum;
                 }
-            }  
+            } 
         }      
     }
     get options(){
@@ -85,6 +85,7 @@ export class SelectComponent implements OnInit{
     optionIndex: number = 0;
     height: number;
     resultOptions: any[] = [];
+    loading: boolean;
 
     constructor( private renderer: Renderer, private elementRef: ElementRef) {
         const observable = this.search
@@ -93,7 +94,8 @@ export class SelectComponent implements OnInit{
             .subscribe((data) => {  
                 this.optionIndex = 0;
                 this.page = 1;
-                this.loadData.emit({ page: this.page, filter: data });            
+                this.loading = true;
+                this.loadData.emit({ page: this.page, filter: data });                       
             });             
     }
     
@@ -105,7 +107,8 @@ export class SelectComponent implements OnInit{
 
     onClickSelect() {
         if (!this.selectOpened) {
-            this.selectOpened = true;           
+            this.selectOpened = true; 
+            this.loading = true;          
             this.loadData.emit({page: this.page, filter: this.filter});            
             setTimeout(()=>{ 
                 this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);

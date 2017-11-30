@@ -25,7 +25,10 @@
              (input)="search.next(searchInputEl.value)" 
              (keydown)="onKeyDown($event)" ([ngModel])="filter">
     </div>
+    <img src="assets/images/spinner.gif" class="paged-select-spinner" 
+         alt="Loading..." *ngIf="loading"/>
     <div #scrollEl
+         *ngIf="!loading"
          class="paged-select-scroll"
          infinite-scroll
          [scrollWindow]="false"

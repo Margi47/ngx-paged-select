@@ -17,3 +17,10 @@
   .paged-select-result-label{
   padding:0rem 0.7rem 0rem 0rem;
 }
+
+.paged-select-spinner{
+  width:5%;
+  height:5%;
+  display: block;
+  margin: 0 auto;
+}
