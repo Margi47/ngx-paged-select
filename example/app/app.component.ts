@@ -26,7 +26,7 @@ export class AppComponent implements OnInit{
       if(this.allCities.length == filteredCities.length){
         this.hasMoreOptions = false;
       }
-    }, 3000);
+    }, 1000);
   }
   
   showCity(data){       

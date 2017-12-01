@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Renderer, ElementRef} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Renderer, ElementRef, ContentChild, TemplateRef} from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 
 @Component({
@@ -25,6 +25,8 @@ export class SelectComponent implements OnInit{
                     else{
                         this.height = this.rowHeight * this.showNum;
                     }
+                    
+                    this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
                     setTimeout(() => {
                         let rect = this.scroll.nativeElement.getBoundingClientRect();
                         this.topPosition = rect.top;
@@ -69,10 +71,14 @@ export class SelectComponent implements OnInit{
     }
     @Output() loadData = new EventEmitter<any>();
     @Output() optionSelected = new EventEmitter<any>();
+    
+    @ContentChild(TemplateRef) tmpl: TemplateRef<any>;
 
     @ViewChild('scrollEl') scroll;
     @ViewChild('mainButton') mainButton;
     @ViewChild('searchInputEl') searchInput;
+    @ViewChild('optionWrapper') optionTemplate;
+    @ViewChild('resultWrapper') resultTemplate;
 
     public search = new Subject<string>();
 
@@ -86,6 +92,8 @@ export class SelectComponent implements OnInit{
     height: number;
     resultOptions: any[] = [];
     loading: boolean;
+    hasOptionTemplate: boolean;
+    hasResultTemplate: boolean;
 
     constructor( private renderer: Renderer, private elementRef: ElementRef) {
         const observable = this.search
@@ -102,7 +110,10 @@ export class SelectComponent implements OnInit{
     ngOnInit() {
         if (!this.showNum) {
             this.showNum = this.options.length;
-        }                    
+        }   
+    
+          
+                
     }
 
     onClickSelect() {
@@ -110,9 +121,11 @@ export class SelectComponent implements OnInit{
             this.selectOpened = true; 
             this.loading = true;          
             this.loadData.emit({page: this.page, filter: this.filter});            
-            setTimeout(()=>{ 
-                this.scroll.nativeElement.children[this.optionIndex].scrollIntoView(true);
-                this.searchInput.nativeElement.focus();
+            setTimeout(()=>{              
+                //this.hasOptionTemplate = this.optionTemplate.nativeElement &&                  //             this.optionTemplate.nativeElement.children.length > 0;  
+                //this.hasResultTemplate = this.resultTemplate.nativeElement &&                  //             this.resultTemplate.nativeElement.children.length > 0;    
+                //this.searchInput.nativeElement.focus();
+                //console.log(this.hasOptionTemplate, this.hasResultTemplate);
             }, 0);
         }
         else {

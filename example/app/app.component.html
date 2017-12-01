@@ -40,6 +40,13 @@
                   [multiple]="multiple"
                   [placeholder]="'Choose City'"
                   (loadData)="loadData($event)"
-                  (optionSelected)="showCity($event)"></ngx-paged-select>
+                  (optionSelected)="showCity($event)">
+            <div result>Result</div>
+            <ng-template let-option option>
+
+                  <div>{{option.id}} -- {{option.name}}</div>
+
+            </ng-template>
+    </ngx-paged-select>
 </div>
 

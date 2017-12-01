@@ -4,14 +4,16 @@
     <span class="form-control" aria-expanded="false">
         <div [hidden]="resultOptions.length>0">{{placeholder}}</div>
         <div *ngFor="let result of resultOptions">
-                <!--<button class="btn btn-outline-primary btn-sm paged-select-delete-result-btn" 
-                        type="button" 
-                        (click)="deleteResult(result); $event.stopPropagation()">x</button>-->
+            <div #resultWrapper>
+                <ng-content select="[result]"></ng-content>
+            </div>
+            <div *ngIf="resultWrapper.children == 0">
                 <button type="button" class="close paged-select-delete-result-btn"
                         (click)="deleteResult(result); $event.stopPropagation()">
                         &times;
                 </button>
                 <span class="paged-select-result-label">{{getOptionLabel(result)}}</span>
+            </div>
         </div>
     </span>
     <span class="dropdown-toggle input-group-addon"></span>  
@@ -36,15 +38,13 @@
          [infiniteScrollThrottle]="100"
          (scrolled)="onScrollDown($event)"
          [style.height.px]="height">
-      <span class="dropdown-item"
-            *ngFor="let option of options"
-            [ngClass]="{'active': optionIndex == options.indexOf(option)}"
+      <ng-template #option ngFor [ngForOf]="options" [ngForTemplate]="tmpl" select="[option]"
+            class="dropdown-item"
             (click)="onOptionSelect(option)"
-            (mouseenter)="onMouseOver(option)" >
-          <input type="checkbox" *ngIf="multiple" 
-                 [checked]="resultOptions.indexOf(option) != -1"/>  
-          <span [innerText]="getOptionLabel(option)"></span>
-      </span>
+            (mouseenter)="onMouseOver(option)"
+             >
+       </ng-template>     
+           
     </div>
   </div>
   </div>
