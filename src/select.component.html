@@ -8,13 +8,15 @@
                     (click)="deleteResult(result); $event.stopPropagation()">
                     &times;
             </button>
+            <span class="paged-select-result-label">
             <span #templateResults>
                 <ng-template [ngTemplateOutlet]="tmpl" select="[result]"
                             [ngTemplateOutletContext]="{ $implicit: result }">
                 </ng-template>   
             </span>
             <span *ngIf="templateResults.children.length == 0" 
-                  class="paged-select-result-label">{{getOptionLabel(result)}}</span>
+                  >{{getOptionLabel(result)}}</span>
+            </span>
         </div>
     </span>
     <span class="dropdown-toggle input-group-addon"></span>  
