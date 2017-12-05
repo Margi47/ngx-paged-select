@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Renderer, ElementRef, ContentChild, TemplateRef} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, ContentChild, TemplateRef} from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 
 @Component({
@@ -12,9 +12,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 export class SelectComponent implements OnInit{
     _options: any[];
     @Input() set options(value){
-        console.log("setter");
         if(value != null){
-            console.log(this.rowHeight);
             this.loading = false;
             this._options = value;            
             if(this.rowHeight == undefined && this.selectOpened){
@@ -34,7 +32,6 @@ export class SelectComponent implements OnInit{
                         this.topPosition = rect.top;
                         this.bottomPosition = rect.bottom;
                         },0);
-                        console.log(this.height);
                 }, 0);
             }
             else{                  
@@ -94,10 +91,8 @@ export class SelectComponent implements OnInit{
     height: number;
     resultOptions: any[] = [];
     loading: boolean;
-    hasOptionTemplate: boolean;
-    hasResultTemplate: boolean;
 
-    constructor( private renderer: Renderer, private elementRef: ElementRef) {
+    constructor(private elementRef: ElementRef) {
         const observable = this.search
             .debounceTime(400)
             .distinctUntilChanged()
@@ -116,7 +111,6 @@ export class SelectComponent implements OnInit{
     }
 
     onClickSelect() {
-        console.log("click");
         if (!this.selectOpened) {
             this.selectOpened = true; 
             this.loading = true;          
