@@ -2,7 +2,7 @@
     padding:0rem 0rem 0rem 0rem;
     margin: 0rem
 }
-#cityGroup, #countryGroup, #populationGroup{
+#cityGroup, #countryGroup, #populationGroup, #flagGroup{
     margin: 0.5rem 0rem 0rem 0rem
 }
 #populationGroup{

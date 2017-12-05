@@ -3,4 +3,5 @@ export class City{
     name: string;
     country: string;
     population: number;
+    flag: string;
 }

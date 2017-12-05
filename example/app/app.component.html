@@ -1,6 +1,9 @@
 <div id="example">
-    <div style="margin:0.5rem 0rem" class="form-control col-2" (click)="toggleMultiple()">  
+    <div style="margin:0.5rem 0rem" class="form-control col-3" (click)="toggleMultiple()">  
         <input id="multipleCheckbox" type="checkbox" [checked]="multiple"  style="margin-right:0.3rem"/>Multiple
+    </div>
+    <div style="margin:0.5rem 0rem" class="form-control col-3" (click)="toggleTemplate()">  
+        <input id="templateCheckbox" type="checkbox" [checked]="customTemplate"  style="margin-right:0.3rem"/>Custom Template
     </div>
     <div *ngIf="!multiple">
         <div class="form-group row" id="cityGroup">
@@ -10,6 +13,10 @@
         <div class="form-group row" id="countryGroup">
             <label for="country" class="col-form-label col-sm-2 result-label"><strong>Country: </strong></label>
             <label *ngIf="selectedOptions" class="col-sm-10 result-label" id="country">{{selectedOptions.country}}</label>
+        </div>
+        <div class="form-group row" id="flagGroup">
+            <label for="flag" class="col-form-label col-sm-2 result-label"><strong>Flag: </strong></label>
+            <label *ngIf="selectedOptions" class="col-sm-10 result-label" id="country"><img src={{selectedOptions.flag}}/></label>
         </div>
         <div class="form-group row" id="populationGroup">
             <label for="population" class="col-form-label col-sm-2 result-label"><strong>Population: </strong></label>
@@ -22,31 +29,47 @@
                 <th>City</th>
                 <th>Country</th>
                 <th>Population</th>    
+                <th>Flag</th>
             </thead>
             <tbody>
                 <tr *ngFor="let option of selectedOptions">
                     <td>{{option.name}}</td>
                     <td>{{option.country}}</td>
                     <td>{{option.population}}</td>
+                    <td><img src={{option.flag}}/></td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <div *ngIf="!customTemplate">
+        <ngx-paged-select [options]="allCities"
+                      [hasMoreOptions]="hasMoreOptions"
+                      [key]="'name'"
+                      [showNum]="5"
+                      [multiple]="multiple"
+                      [placeholder]="'Choose City'"
+                      (loadData)="loadData($event)"
+                      (optionSelected)="showCity($event)">
+        </ngx-paged-select>
+    </div>
     
-    <ngx-paged-select [options]="allCities"
-                  [hasMoreOptions]="hasMoreOptions"
-                  [key]="'name'"
-                  [showNum]="5"
-                  [multiple]="multiple"
-                  [placeholder]="'Choose City'"
-                  (loadData)="loadData($event)"
-                  (optionSelected)="showCity($event)">
-            <div result>Result</div>
-            <ng-template let-option option>
-
-                  <div>{{option.id}} -- {{option.name}}</div>
-
+    <div *ngIf="customTemplate">
+        <ngx-paged-select [options]="allCities"
+                      [hasMoreOptions]="hasMoreOptions"
+                      [key]="'name'"
+                      [showNum]="5"
+                      [multiple]="multiple"
+                      [placeholder]="'Choose City'"
+                      (loadData)="loadData($event)"
+                      (optionSelected)="showCity($event)">
+                  
+            <ng-template let-option option >
+              <span><img src={{option.flag}}/>  {{option.name}}</span>
             </ng-template>
-    </ngx-paged-select>
+            <ng-template let-result result>
+              <div><img src={{result.flag}}/> {{result.name}}</div>
+            </ng-template>
+        </ngx-paged-select>
+    </div>
 </div>
-
+            

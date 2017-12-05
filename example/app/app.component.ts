@@ -12,10 +12,12 @@ export class AppComponent implements OnInit{
   hasMoreOptions: boolean;
   selectedOptions: any;
   multiple: boolean;
+  customTemplate: boolean;
   
   ngOnInit(){
     this.hasMoreOptions = true;
     this.multiple = false;
+    this.customTemplate = false;
   }
   
   loadData(data){
@@ -26,6 +28,7 @@ export class AppComponent implements OnInit{
       if(this.allCities.length == filteredCities.length){
         this.hasMoreOptions = false;
       }
+      console.log(this.allCities);
     }, 1000);
   }
   
@@ -36,5 +39,10 @@ export class AppComponent implements OnInit{
   toggleMultiple(){
       this.multiple = !this.multiple;
       this.selectedOptions = null;
+  }
+  
+  toggleTemplate(){
+    this.customTemplate = !this.customTemplate;
+    this.selectedOptions = null;
   }
 }

@@ -12,10 +12,12 @@ import { Observable, Subject } from 'rxjs/Rx';
 export class SelectComponent implements OnInit{
     _options: any[];
     @Input() set options(value){
+        console.log("setter");
         if(value != null){
+            console.log(this.rowHeight);
             this.loading = false;
             this._options = value;            
-            if(this.rowHeight == undefined){
+            if(this.rowHeight == undefined && this.selectOpened){
                 setTimeout(()=>{ 
                     this.rowHeight = this.scroll.nativeElement.children[0]
                                         .getBoundingClientRect().height;
@@ -32,6 +34,7 @@ export class SelectComponent implements OnInit{
                         this.topPosition = rect.top;
                         this.bottomPosition = rect.bottom;
                         },0);
+                        console.log(this.height);
                 }, 0);
             }
             else{                  
@@ -77,8 +80,7 @@ export class SelectComponent implements OnInit{
     @ViewChild('scrollEl') scroll;
     @ViewChild('mainButton') mainButton;
     @ViewChild('searchInputEl') searchInput;
-    @ViewChild('optionWrapper') optionTemplate;
-    @ViewChild('resultWrapper') resultTemplate;
+    @ViewChild('templates') optionTemplates;
 
     public search = new Subject<string>();
 
@@ -111,21 +113,16 @@ export class SelectComponent implements OnInit{
         if (!this.showNum) {
             this.showNum = this.options.length;
         }   
-    
-          
-                
     }
 
     onClickSelect() {
+        console.log("click");
         if (!this.selectOpened) {
             this.selectOpened = true; 
             this.loading = true;          
             this.loadData.emit({page: this.page, filter: this.filter});            
             setTimeout(()=>{              
-                //this.hasOptionTemplate = this.optionTemplate.nativeElement &&                  //             this.optionTemplate.nativeElement.children.length > 0;  
-                //this.hasResultTemplate = this.resultTemplate.nativeElement &&                  //             this.resultTemplate.nativeElement.children.length > 0;    
-                //this.searchInput.nativeElement.focus();
-                //console.log(this.hasOptionTemplate, this.hasResultTemplate);
+                this.searchInput.nativeElement.focus();
             }, 0);
         }
         else {

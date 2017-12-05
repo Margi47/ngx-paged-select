@@ -4,16 +4,17 @@
     <span class="form-control" aria-expanded="false">
         <div [hidden]="resultOptions.length>0">{{placeholder}}</div>
         <div *ngFor="let result of resultOptions">
-            <div #resultWrapper>
-                <ng-content select="[result]"></ng-content>
-            </div>
-            <div *ngIf="resultWrapper.children == 0">
-                <button type="button" class="close paged-select-delete-result-btn"
-                        (click)="deleteResult(result); $event.stopPropagation()">
-                        &times;
-                </button>
-                <span class="paged-select-result-label">{{getOptionLabel(result)}}</span>
-            </div>
+            <button type="button" class="close paged-select-delete-result-btn"
+                    (click)="deleteResult(result); $event.stopPropagation()">
+                    &times;
+            </button>
+            <span #templateResults>
+                <ng-template [ngTemplateOutlet]="tmpl" select="[result]"
+                            [ngTemplateOutletContext]="{ $implicit: result }">
+                </ng-template>   
+            </span>
+            <span *ngIf="templateResults.children.length == 0" 
+                  class="paged-select-result-label">{{getOptionLabel(result)}}</span>
         </div>
     </span>
     <span class="dropdown-toggle input-group-addon"></span>  
@@ -38,13 +39,20 @@
          [infiniteScrollThrottle]="100"
          (scrolled)="onScrollDown($event)"
          [style.height.px]="height">
-      <ng-template #option ngFor [ngForOf]="options" [ngForTemplate]="tmpl" select="[option]"
-            class="dropdown-item"
+      <span class="dropdown-item"
+            *ngFor="let option of options; let i=index"
+            [ngClass]="{'active': optionIndex == i}"
             (click)="onOptionSelect(option)"
-            (mouseenter)="onMouseOver(option)"
-             >
-       </ng-template>     
-           
+            (mouseenter)="onMouseOver(option)" >
+            <input type="checkbox" *ngIf="multiple"
+                [checked]="resultOptions.indexOf(option) != -1"/>
+            <span #templateOptions>
+                <ng-template [ngTemplateOutlet]="tmpl" select="[option]"
+                            [ngTemplateOutletContext]="{ $implicit: option }">
+                </ng-template>   
+            </span>
+            <span [innerText]="getOptionLabel(option)" *ngIf="templateOptions.children.length == 0"></span> 
+      </span>
     </div>
   </div>
   </div>
