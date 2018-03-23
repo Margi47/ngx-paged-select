@@ -2,7 +2,7 @@
     <div #mainButton (click)="onClickSelect()" tabindex="0" class="input-group" (keydown)="onMainKeyDown($event)">
         <span class="form-control" aria-expanded="false">
             <div [hidden]="resultOptions.length>0">{{placeholder}}</div>
-            <div *ngFor="let result of resultOptions">
+            <span *ngFor="let result of resultOptions">
                 <button type="button" class="close paged-select-delete-result-btn" (click)="deleteResult(result); $event.stopPropagation()">
                     &times;
                 </button>
@@ -13,7 +13,7 @@
                     </span>
                     <span *ngIf="templateResults.children.length == 0">{{getOptionLabel(result)}}</span>
                 </span>
-            </div>
+            </span>
         </span>
         <div class="input-group-append">
             <span class="dropdown-toggle input-group-text"></span>
