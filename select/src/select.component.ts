@@ -76,10 +76,10 @@ export class SelectComponent implements OnInit {
 
     @ContentChild(TemplateRef) tmpl: TemplateRef<any>;
 
-    @ViewChild('scrollEl') scroll;
-    @ViewChild('mainButton') mainButton;
-    @ViewChild('searchInputEl') searchInput;
-    @ViewChild('templates') optionTemplates;
+    @ViewChild('scrollEl') scroll: any;
+    @ViewChild('mainButton') mainButton: any;
+    @ViewChild('searchInputEl') searchInput: any;
+    @ViewChild('templates') optionTemplates: any;
 
     public search = new Subject<string>();
 
@@ -131,7 +131,7 @@ export class SelectComponent implements OnInit {
         }
     }
 
-    onMouseOver(option) {
+    onMouseOver(option: any) {
         this.optionIndex = this.options.indexOf(option);
     }
 
@@ -261,7 +261,7 @@ export class SelectComponent implements OnInit {
         return option;
     }
 
-    onOutsideClick(event) {
+    onOutsideClick(event: any) {
         if (!this.elementRef.nativeElement.contains(event.target) && this.selectOpened)
             this.onClickSelect();
     }

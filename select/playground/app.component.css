@@ -1,0 +1,17 @@
+.result-label {
+    padding: 0rem 0rem 0rem 0rem;
+    margin: 0rem
+}
+
+#cityGroup, #countryGroup, #populationGroup, #flagGroup {
+    margin: 0.5rem 0rem 0rem 0rem
+}
+
+#populationGroup {
+    margin-bottom: 1rem
+}
+
+#example {
+    width: 50%;
+    margin: 0 auto
+}
