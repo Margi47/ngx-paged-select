@@ -23,7 +23,7 @@
     "email": "Margi47@users.noreply.github.com"
   },
   "keywords": [
-    "angular"
+    "angular", "dropdown"
   ],
   "license": "MIT",
   "bugs": {
@@ -74,6 +74,7 @@
   "dependencies": {
     "@angular/core": "^5.2.9",
     "@angular/http": "^5.2.9",
+    "bootstrap": "^4.0.0",
     "ngx-infinite-scroll": "^0.8.3"
   }
 }

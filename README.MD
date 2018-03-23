@@ -98,12 +98,6 @@ To lint all `*.ts` files:
 $ npm run lint
 ```
 
-To run demo:
-
-```bash
- $ npm run playground
- ```
-
 ## License
 
 MIT © [Margarita Liapustina](mailto:Margi47@users.noreply.github.com)
