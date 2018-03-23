@@ -1,0 +1,28 @@
+{
+  "name": "ngx-paged-select",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Margi47/ngx-paged-select"
+  },
+  "author": {
+    "name": "Margarita Liapustina",
+    "email": "Margi47@users.noreply.github.com"
+  },
+  "keywords": [
+    "angular"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Margi47/ngx-paged-select/issues"
+  },
+  "main": "ngx-paged-select.umd.js",
+  "module": "ngx-paged-select.js",
+  "jsnext:main": "ngx-paged-select.js",
+  "typings": "ngx-paged-select.d.ts",
+  "peerDependencies": {
+    "@angular/core": "^4.0.0",
+    "rxjs": "^5.1.0",
+    "zone.js": "^0.8.4"
+  }
+}

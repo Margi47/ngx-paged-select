@@ -1,0 +1,42 @@
+<div class="dropdown paged-select" [ngClass]="{'show': selectOpened}">
+    <div #mainButton (click)="onClickSelect()" tabindex="0" class="input-group" (keydown)="onMainKeyDown($event)">
+        <span class="form-control" aria-expanded="false">
+            <div [hidden]="resultOptions.length>0">{{placeholder}}</div>
+            <div *ngFor="let result of resultOptions">
+                <button type="button" class="close paged-select-delete-result-btn" (click)="deleteResult(result); $event.stopPropagation()">
+                    &times;
+                </button>
+                <span class="paged-select-result-label">
+                    <span #templateResults>
+                        <ng-template [ngTemplateOutlet]="tmpl" select="[result]" [ngTemplateOutletContext]="{ $implicit: result }">
+                        </ng-template>
+                    </span>
+                    <span *ngIf="templateResults.children.length == 0">{{getOptionLabel(result)}}</span>
+                </span>
+            </div>
+        </span>
+        <div class="input-group-append">
+            <span class="dropdown-toggle input-group-text"></span>
+        </div>
+    </div>
+
+    <div [ngClass]="{'show': selectOpened}" class="dropdown-menu paged-select-dropdown-menu">
+        <div class="paged-select-search">
+            <input #searchInputEl type="search" class="form-control ds-input" placeholder="Search..." (input)="search.next(searchInputEl.value)"
+                (keydown)="onKeyDown($event)" ([ngModel])="filter">
+        </div>
+        <img src="assets/images/spinner.gif" class="paged-select-spinner" alt="Loading..." *ngIf="loading" />
+        <div #scrollEl *ngIf="!loading" class="paged-select-scroll" infinite-scroll [scrollWindow]="false" [infiniteScrollDistance]="1"
+            [infiniteScrollThrottle]="100" (scrolled)="onScrollDown($event)" [style.height.px]="height">
+            <span class="dropdown-item" *ngFor="let option of options; let i=index" [ngClass]="{'active': optionIndex == i}" (click)="onOptionSelect(option)"
+                (mouseenter)="onMouseOver(option)">
+                <input type="checkbox" *ngIf="multiple" [checked]="resultOptions.indexOf(option) != -1" />
+                <span #templateOptions>
+                    <ng-template [ngTemplateOutlet]="tmpl" select="[option]" [ngTemplateOutletContext]="{ $implicit: option }">
+                    </ng-template>
+                </span>
+                <span [innerText]="getOptionLabel(option)" *ngIf="templateOptions.children.length == 0"></span>
+            </span>
+        </div>
+    </div>
+</div>

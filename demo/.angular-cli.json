@@ -1,11 +1,11 @@
-﻿{
+{
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "select-component"
+    "name": "demo"
   },
   "apps": [
     {
-      "root": "example",
+      "root": "src",
       "outDir": "dist",
       "assets": [
         "assets",
