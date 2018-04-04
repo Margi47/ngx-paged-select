@@ -13,15 +13,19 @@ $ npm install ngx-paged-select --save
 You will need [ngx-infinite-scroll](https://github.com/orizens/ngx-infinite-scroll)
 
 ```bash
-npm install ngx-infinite-scroll --save
+$ npm install ngx-infinite-scroll --save
 ```
 and [Bootstrap](https://getbootstrap.com/) styles
+
+```bash
+$ npm install bootstrap --save
+```
 ```html
 <!--- index.html -->
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
 ```
 
-## Consuming your library
+## Consuming library
 
 You can import library in any Angular application by running:
 
@@ -37,7 +41,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-// Import your library
+// Import library
 import { SelectModule } from 'ngx-paged-select';
 
 @NgModule({
@@ -47,7 +51,7 @@ import { SelectModule } from 'ngx-paged-select';
   imports: [
     BrowserModule,
 
-    // Specify your library as an import
+    // Specify library as an import
     SelectModule
   ],
   providers: [],
@@ -56,10 +60,10 @@ import { SelectModule } from 'ngx-paged-select';
 export class AppModule { }
 ```
 
-Once library is imported, you can use its components, directives and pipes in your Angular application:
+Once library is imported, you can use it in your Angular application:
 
 ```xml
-<!-- You can now use your library component in app.component.html -->
+<!-- You can now use select component with default template in app.component.html -->
 <ngx-paged-select [options]="options$"
                   [hasMoreOptions]="hasMoreOptions"
                   [key]="'name'"
@@ -68,6 +72,25 @@ Once library is imported, you can use its components, directives and pipes in yo
                   [multiple]="true"
                   (loadData)="loadNextPage($event)"
                   (optionSelected)="onSelect($event)"></ngx-paged-select>
+```
+
+```xml
+<!-- Or with custom template -->
+<ngx-paged-select [options]="options$"
+                  [hasMoreOptions]="hasMoreOptions"
+                  (loadData)="loadNextPage($event)"
+                  (optionSelected)="onSelect($event)">
+  
+    <!-- Template for options to select from -->
+    <ng-template let-option option>
+        <img src={{option.logo}}/>
+    </ng-template>
+  
+    <!-- Template for chosen elements -->
+    <ng-template let-result result>
+        <img src={{result.logo}}/>
+    </ng-template>
+</ngx-paged-select>
 ```
 
 ## Supported API
@@ -96,6 +119,12 @@ To lint all `*.ts` files:
 
 ```bash
 $ npm run lint
+```
+
+To run example:
+
+```bash
+$ npm run playground
 ```
 
 ## License
