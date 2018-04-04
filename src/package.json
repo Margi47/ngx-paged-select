@@ -1,6 +1,7 @@
 {
   "name": "ngx-paged-select",
   "version": "0.1.0",
+  "description": "",
   "repository": {
     "type": "git",
     "url": "https://github.com/Margi47/ngx-paged-select"
@@ -10,7 +11,7 @@
     "email": "Margi47@users.noreply.github.com"
   },
   "keywords": [
-    "angular"
+    "angular", "dropdown", "paging"
   ],
   "license": "MIT",
   "bugs": {
@@ -23,6 +24,8 @@
   "peerDependencies": {
     "@angular/core": "^4.0.0",
     "rxjs": "^5.1.0",
-    "zone.js": "^0.8.4"
+    "zone.js": "^0.8.4",
+    "bootstrap": "^4.0.0",
+    "ngx-infinite-scroll": "^0.8.3"
   }
 }

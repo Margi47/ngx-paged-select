@@ -66,15 +66,15 @@
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
     "typescript": "~2.4.2",
-    "zone.js": "^0.8.14"
+    "zone.js": "^0.8.14",
+    "bootstrap": "^4.0.0",
+    "ngx-infinite-scroll": "^0.8.3"
   },
   "engines": {
     "node": ">=6.0.0"
   },
   "dependencies": {
     "@angular/core": "^5.2.9",
-    "@angular/http": "^5.2.9",
-    "bootstrap": "^4.0.0",
-    "ngx-infinite-scroll": "^0.8.3"
+    "@angular/http": "^5.2.9"
   }
 }

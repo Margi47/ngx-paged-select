@@ -20,9 +20,15 @@
     padding: 0rem 0.7rem 0rem 0rem;
 }
 
-.paged-select-spinner {
-    width: 5%;
-    height: 5%;
+.paged-select-spinner{
     display: block;
-    margin: 0 auto;
+    text-align: center;
+    padding: 1% 0;
+}
+.paged-select-spinner img{
+    width: 3%;
+}
+
+.paged-select-spinner label{
+    margin: 0 0 0 1%;
 }
