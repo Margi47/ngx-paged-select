@@ -1,47 +1,69 @@
 # ngx-paged-select
 A simple select component for Angular 4 with scrolling and paging features.
 
-## Installing
+## Installation
+
 To install this library, run:
-```
+
+```bash
 $ npm install ngx-paged-select --save
 ```
-
 ## Prerequisites
 
 You will need [ngx-infinite-scroll](https://github.com/orizens/ngx-infinite-scroll)
 
-```
-npm install ngx-infinite-scroll --save
+```bash
+$ npm install ngx-infinite-scroll --save
 ```
 and [Bootstrap](https://getbootstrap.com/) styles
+
+```bash
+$ npm install bootstrap --save
 ```
+```html
 <!--- index.html -->
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
 ```
 
-## Usage
+## Consuming library
 
-Import select to you aplication module
+You can import library in any Angular application by running:
 
+```bash
+$ npm install ngx-paged-select
 ```
+
+and then from your Angular `AppModule`:
+
+```typescript
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core'; 
+import { NgModule } from '@angular/core';
+
 import { AppComponent } from './app.component';
- 
+
+// Import library
 import { SelectModule } from 'ngx-paged-select';
- 
+
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule,SelectModule],
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+
+    // Specify library as an import
+    SelectModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
 ```
-Add component to your template
 
-```
+Once library is imported, you can use it in your Angular application:
+
+```xml
+<!-- You can now use select component with default template in app.component.html -->
 <ngx-paged-select [options]="options$"
                   [hasMoreOptions]="hasMoreOptions"
                   [key]="'name'"
@@ -50,6 +72,25 @@ Add component to your template
                   [multiple]="true"
                   (loadData)="loadNextPage($event)"
                   (optionSelected)="onSelect($event)"></ngx-paged-select>
+```
+
+```xml
+<!-- Or with custom template -->
+<ngx-paged-select [options]="options$"
+                  [hasMoreOptions]="hasMoreOptions"
+                  (loadData)="loadNextPage($event)"
+                  (optionSelected)="onSelect($event)">
+  
+    <!-- Template for options to select from -->
+    <ng-template let-option option>
+        <img src={{option.logo}}/>
+    </ng-template>
+  
+    <!-- Template for chosen elements -->
+    <ng-template let-result result>
+        <img src={{result.logo}}/>
+    </ng-template>
+</ngx-paged-select>
 ```
 
 ## Supported API
@@ -66,9 +107,26 @@ Add component to your template
 - loadData - Fires when new page needed or search input occured. Returns object with **page:number** and **filter:string** properties.
 - optionSelected - Fires when option has been selected. Returns the entire option object or an array of option objects in case of *multiple* attribute set to true.
 
-## Running the tests
-Download the repository and run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Development
+
+To generate all `*.js`, `*.d.ts` and `*.metadata.json` files:
+
+```bash
+$ npm run build
+```
+
+To lint all `*.ts` files:
+
+```bash
+$ npm run lint
+```
+
+To run example:
+
+```bash
+$ npm run playground
+```
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+MIT © [Margarita Liapustina](mailto:Margi47@users.noreply.github.com)
