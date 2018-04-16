@@ -1,6 +1,8 @@
 [![npm](https://img.shields.io/npm/v/ngx-paged-select.svg)](https://www.npmjs.com/package/ngx-paged-select)
 [![npm](https://img.shields.io/npm/dt/ngx-paged-select.svg)](https://www.npmjs.com/package/ngx-paged-select)
 [![Travis](https://img.shields.io/travis/Margi47/ngx-paged-select.svg)](https://travis-ci.org/Margi47/ngx-paged-select)
+![npm](https://img.shields.io/npm/l/ngx-paged-select.svg)
+
 
 # ngx-paged-select
 A simple select component for Angular 4 with scrolling and paging features.
